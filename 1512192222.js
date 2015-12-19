@@ -1,0 +1,2 @@
+var isvip = false 
+
