@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+<!--#include virtual="/npfweb/module/headtag.html"-->
+<title>自取发票</title>
+<script type="text/javascript">
+var mid = "m_invoice";
+</script>
+<link type="text/css" rel="stylesheet" href="cdn_location/css/invoice.css?v=cdn_version"/>
+</head>
+<body>
+<!-- 内容  begin-->
+<div id="wapContent">
+    <div class="coatLayer">
+        <div id="cotainer" class="content fixed">
+            <!-- no left or right -->
+                <!--#include virtual="/npfweb/npfinvoiceweb/subpages_self/invoice_crumb.html" -->
+                <div class="invoice_body">
+                    <ul class="iTabList service">
+                        <li class="on">自取发票</li>
+                        <li><a href="invoice_self_search.htm">自取发票记录</a></li>
+                    </ul>
+                    <div class="fill_the_invoice invoice_sel_box fixed service" style="display:none;">
+                        <!--#include virtual="/npfweb/npfinvoiceweb/subpages_self/self_invoice_init.shtml" -->
+                    </div>
+                    <!--#include virtual="/npfweb/npfinvoiceweb/subpages/no_service.html" -->
+                </div>
+                <div class="pointCon" id="messageTipsDiv" style="display:none;">
+                    <h4 class="hrt" id="messageTips"><label>温馨提示</label></h4>
+                </div>
+        </div>
+        <!-- 新增自领取信息弹出层 -->
+        <!--#include virtual="/npfweb/npfinvoiceweb/subpages_self/add_invoice.html" -->
+        <!--支付提示层-->
+        <!--#include virtual="/npfweb/module/tips/paytip.html" -->
+        <div class="thick-div" id="thickDiv" style="display:none;"></div>
+        <!--== rightCon end==-->
+        <div class="clr"></div>
+    </div>
+</div>
+<div class="loadingMian" style="display:none;">
+    <div class="loading2"><b></b></div>
+</div>
+<!-- 内容  begin-->
+</body>
+<!--#include virtual="/npfweb/module/foottag_invoice.shtml" -->
+<script language="javascript" type="text/javascript" src="https://uac.10010.com/cust/js/component/areadata.js"></script>
+<!--#if expr="$concat_tag=0"-->
+<script language="javascript" type="text/javascript" src="cdn_location/js/area.js?v=cdn_version"></script>
+<script language="javascript" type="text/javascript" src="cdn_location/js/IdCard-Validate.js?v=cdn_version"></script>
+
+<script language="javascript" type="text/javascript" src="cdn_location/js/invoice/invoice_self.js?v=cdn_version"></script>
+<script language="javascript" type="text/javascript" src="cdn_location/js/component/invoice.js?v=cdn_version"></script>
+
+<script language="javascript" type="text/javascript" src="cdn_location/js/invoice/fill_invoice.js?v=cdn_version"></script>
+<script language="javascript" type="text/javascript" src="cdn_location/js/invoice/fill_invoiceinfo.js?v=cdn_version"></script>
+<script language="javascript" type="text/javascript" src="cdn_location/js/component/verifycode.js?v=cdn_version"></script>
+<!--#else-->
+<script language="javascript" type="text/javascript" src="cdn_location/js/??area.js,IdCard-Validate.js,invoice/invoice_self.js,invoice/fill_invoice.js,invoice/fill_invoiceinfo.js,component/verifycode.js?v=cdn_version"></script>
+<!--#endif-->
+</html>

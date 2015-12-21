@@ -1,0 +1,122 @@
+<form id="invoiceForm" action="" method="post">
+    <!--#include virtual="/npfweb/npfinvoiceweb/subpages/choose_term.shtml?servicetype=27" -->
+    <input id="secstate" name="secstate.state" type="hidden" value="3mCBuETgA/YTbuZO79gHFA==^@^0.0.1"/>
+    <input id="invoiceBeanneedinvoice" type="hidden" value="1" name="invoiceBean.need_invoice"><!-- 1:需要发票 -->
+    <!--input id="invoiceBeaninvoicetype" type="hidden" value="" name="invoiceBean.invoice_type"><!-- 1月结  0,2 次日领取 -->
+    <input id="invoiceBeanismailing" type="hidden" value="0" name="invoiceBean.is_mailing"><!-- 1:邮寄 0:不邮寄 -->
+    <input id="invoiceTotalMoney" type="hidden" value="1" name="postBean.invoice_total_money"><!-- 1:邮寄 0:不邮寄 -->
+    <input id="unicardServicetype" type="hidden" value="" name="postBean.unicardServicetype">
+          <!--div class="invoice_records invoice_sel_box" style="display:none;">
+            <p>查询领取发票记录：</p>
+            <div class="dateRange">
+              <label>起止日期：</label>
+              <input type="text" onclick="WdatePicker({maxDate:'#F{$dp.$D(\'txtE\',{d:-1})}',dateFmt:'yyyy-MM-dd'})" class="dIpt" id="txtB">
+              <span class="mrgLR15">--</span>
+              <input type="text" onfocus="WdatePicker({minDate:'#F{$dp.$D(\'txtB\',{d:0})||\'%y-%M-%d-#{%H+1}\'}',dateFmt:'yyyy-MM-dd'})" class="dIpt" id="txtE">
+            </div>
+          </div-->
+    <!--购卡发票-->
+    <div class="invoice_list_box fixed" id="card_list" style="">
+        <h6 class="list_title" title="展开/收起">
+            <em class="close"></em>
+            <label>购卡发票</label>
+            <span class="help_infor">
+                <i class="help"></i>
+                <a class="left" href="javascript:">什么是购卡发票？</a>
+                <u style="display: none;" class="help_body">是指中国联通依据实际收款金额为客户出具的购卡发票。 </u>
+            </span>
+        </h6>
+        <table width="951" id="invoice_card" class="list_table buycard" cellspacing="0" cellpadding="0" border="0" style="display:none;">
+            <thead>
+                <tr>
+                    <td width="60"></td>
+                    <td>购卡时间（月）</td>
+                    <td>购卡总额（元）</td>
+                </tr>
+            </thead>
+            <tbody servicetypes="" money="0.00">
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="5" class="sel_all all_buycard">
+                        <input type="checkbox" class="checkBox sel_all_checkBox"/>
+                        <label class="left">全选</label>
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+        <input invoiceid="" name="postBean.cardList" type="hidden" class="invoicelist" value=""/>
+        <div class="selAreaCity fixed" style="margin-bottom:10px;display">
+            <span  class="mr10 left">发票所属地:</span> <span class="mr10 left">省份</span>
+            <select id="invoiceprovice" class="invoiceprovice selStyle01 left">
+                <option value="-">请选择</option><option value="011">北京</option><option value="013">天津</option><option value="018">河北</option><option value="019">山西</option><option value="010">内蒙古</option><option value="091">辽宁</option><option value="090">吉林</option><option value="097">黑龙江</option><option value="031">上海</option><option value="034">江苏</option><option value="036">浙江</option><option value="030">安徽</option><option value="038">福建</option><option value="075">江西</option><option value="017">山东</option><option value="076">河南</option><option value="071">湖北</option><option value="074">湖南</option><option value="051">广东</option><option value="059">广西</option><option value="050">海南</option><option value="083">重庆</option><option value="081">四川</option><option value="085">贵州</option><option value="086">云南</option><option value="079">西藏</option><option value="084">陕西</option><option value="087">甘肃</option><option value="070">青海</option><option value="088">宁夏</option><option value="089">新疆</option>
+            </select>
+            <span class="mr10 left">地市</span>
+            <select id="invoicecity" class="invoicecity selStyle01 left"><option value="-">请选择</option></select>
+            <input id="provinceHid"  type="hidden" name="invoiceBean.province_code" />
+            <input id="cityHid" type="hidden" name="invoiceBean.city_code"/>
+        </div>
+        <table width="951" id="no_card" class="list_table month_settlement" cellspacing="0" cellpadding="0" border="0">
+            <tr>
+                <td>无记录</td>
+            </tr>
+        </table>
+        
+    </div>
+    <div class="invoice_list_box fixed" id="charge_list" style="">
+        <h6 class="list_title" title="展开/收起">
+            <em class="close"></em>
+            <label>直充发票</label>
+            <span class="help_infor">
+                <i class="help"></i>
+                <a class="left" href="javascript:">什么是直充发票？</a>
+                <u style="display: none;" class="help_body">是指中国联通依据实际收款金额为客户出具的直充发票。 </u>
+            </span>
+        </h6>
+        <table width="951" id="invoice_charge" class="list_table charge" cellspacing="0" cellpadding="0" border="0" style="display:none;">
+            <thead>
+                <tr>
+                    <td width="60"></td>
+                    <td>直充时间（月）</td>
+                    <td>直充总额（元）</td>
+                </tr>
+            </thead>
+            <tbody servicetypes="" money="0.00">
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="5" class="sel_all all_charge">
+                        <input type="checkbox" class="checkBox sel_all_checkBox"/>
+                        <label class="left">全选</label>
+                    </td>
+                </tr>
+                <tr>
+                          <td class="thstyle">发票所属地：</th>
+                                <td><span class="left invoiceproviceSelf"></span>
+                                </td>
+                          </tr>
+            </tfoot>
+        </table>
+        <input invoiceid="" name="postBean.chargeList" type="hidden" class="invoicelist" value=""/>
+        <table width="951" id="no_charge" class="list_table month_settlement" cellspacing="0" cellpadding="0" border="0">
+            <tr>
+                <td>无记录</td>
+            </tr>
+        </table>
+       <!-- <div class="invoice_name" style="display:none;">
+            <label>发票抬头：</label>
+            <input type="text" class="textOne" name="invoiceBean.invoice_head" id="posttitle" maxlength="50"/>
+            <input style="display:none">
+            <span class="c999"><b>*</b>（选择购卡/直充发票请填写发票抬头）</span>
+        </div>
+         --> 
+    </div>
+    <!--购卡发票-->
+    <!--填写自领取身份信息-->
+    <!--#include virtual="/npfweb/npfinvoiceweb/subpages_self/self_invoice_info.shtml" -->
+    <div class="submitData submit_box fixed" style="display:none;">
+        <input type="button" class="sub_btn"/>
+        <div class="error syserr" style="display: none;word-wrap: break-word;word-break: normal;"></div>
+        <span style="display: none;" class="loading_invoice">努力加载中，请稍后...</span>
+    </div>
+</form>

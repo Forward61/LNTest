@@ -1,0 +1,32 @@
+<!--自领取方式-->
+<div class="oneself_receive_box fixed" style="display:none;">
+    <h6>自领取发票</h6>
+    <div class="oneself_receive_infor">
+        <div class="invoice_tip" style="display:none;">
+            <span class="cOrgB">您本次选择自领取发票，发票总额为500元，请填写证件信息并确认</span>
+        </div>
+        <div class="invoice_name" style="display:none;">
+            <label>发票抬头：</label>
+            <input type="text" class="textOne" name="invoiceBean.invoice_head" id="posttitle" maxlength="50"/>
+            <input style="display:none">
+            <span class="c999"><b>*</b>（选择购卡/直充发票请填写发票抬头）</span>
+        </div>
+        <table border="0" cellspacing="10" width="100%" class="invoice_fill invoice_self">
+            <tr>
+                <th>证件信息：</th>
+                <td>
+                    <select class="sel_style left" id="cardtype" name="invoiceBean.card_type">
+                        <option value="0" selected="selected">身份证</option>
+                        <option value="1">军官证</option>
+                        <option value="2">护照</option> 
+                        <option value="3">港澳台通行证</option>
+                        <option value="4">户口簿</option>
+                    </select>
+                    <input id="idno" type="text" class="ipt_style width180" name="invoiceBean.id_cardno" maxlength="18"/>
+                    <div class="error" style="display: none;*width:120px;">请输入正确的证件号码！</div>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
+<!--自领取方式-->

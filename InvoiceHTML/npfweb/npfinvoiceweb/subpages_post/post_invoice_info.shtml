@@ -1,0 +1,40 @@
+<!--填写邮寄信息-->
+<div class="fill_mail_infor fixed" style="display:none;">
+    <h6 class="fixed"><b class="left">邮寄信息</b><span class="add_invoice add_post right">新增邮寄信息</span></h6>
+    <div class="mail_infor">
+        <div class="invoice_tip post_tip" style="display:none;">
+            <span class="cOrgB">此处提供发票提示信息，例如：提供98.50元发票，您是VIP金钻用户，可免费邮寄发票！请填写相关发票信息。</span>
+        </div>
+        <ul class="invoice_history post-history">
+            <!-- li class="history_list fixed">
+                <b class="left">张某某 北京</b>
+                <span>张某某-18688889999-北京市西城西城西城西城西城西城西区...</span>
+                <em class="invoice_edit" style="display:non;"></em>
+                <em class="invoice_del"></em>
+                <div class="del_layer" style="display:none;">
+                    <p>确定删除这条发票？</p>
+                    <label class="del_sur">确认</label>
+                    <label class="del_cel">取消</label>
+                </div>
+            </li-->
+        </ul>
+    </div>
+</div>
+<!--填写邮寄信息-->
+<!--支付方式-->
+<div class="pay_type_box fixed" style="display:none;">
+    <h6>支付方式</h6>
+    <div class="pay_type"><!-- 1：VIP（钻、金）客户 2：积分兑换 3：在线支付 4：免费邮寄 -->
+        <div class="invoice_tip" style="display:none;">
+            <span class="cOrgB">您本次选择邮寄发票总额为500元，您是VIP会员免费邮寄！</span>
+        </div>
+        <input type="hidden" name="postBean.payment" class="cost" value=""/>
+        <input type="hidden" name="commonBean.payAmount" class="cost" value=""/>
+        <label class="jifen"><input type="radio" class="checkBox" name="postBean.payment_method" value="2" cost="" checked="checked"/>积分兑换：<span>本次邮寄使用积分 <b class="cOrange">3000</b> ，使用后剩余积分 <b class="cOrange">1000</b></span></label>
+        <label class="online"><input type="radio" class="checkBox" name="postBean.payment_method" value="3" cost=""/>在线支付：<span>本次邮寄费<b class="cOrange">4.80元</b></span></label>
+        <label class="owncityfree" style="display:none;"><input type="radio" class="checkBox" name="postBean.payment_method" value="4" cost=""/><span>满200交费，本市免费邮寄</span></label>
+        <label class="vip" style="display:none;"><input type="radio" class="checkBox" name="postBean.payment_method" value="1" checked="checked" cost=""/>vip</label>
+        <label class="" style="display:none;"><input type="radio" id="nopaytype" class="checkBox" name="postBean.payment_method" value="" checked="checked" cost=""/><span>no payment</span></label>
+    </div>
+</div>
+<!--支付方式-->
