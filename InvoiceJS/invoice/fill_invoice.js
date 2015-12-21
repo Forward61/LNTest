@@ -434,12 +434,12 @@ function checkInvoiceTitle(_this) {
 $(".sub_btn").bind("click", subInvoice);
 function subInvoice() {
     $(".sub_btn").next(".error").hide();
-    var monthChoose = servicetype == "26"?calMoneyChoosen("invoice_month"):0 , payChoose = servicetype == "26"?calMoneyChoosen("invoice_pay"):0 , cardChoose = calMoneyChoosen("invoice_card");
-    if(!normalVerify(monthChoose,payChoose,cardChoose)) return;
+    var monthChoose = servicetype == "26"?calMoneyChoosen("invoice_month"):0 , payChoose = servicetype == "26"?calMoneyChoosen("invoice_pay"):0 , cardChoose = calMoneyChoosen("invoice_card"),chargChoose=calMoneyChoosenCharege("invoice_charge");
+    if(!normalVerify(monthChoose,payChoose,cardChoose,chargChoose)) return;
     $(".chooseMonth").val($(".sel_scope .on").eq(0).attr("month"));//选择的月份
     if(isEmpty(servicetype)) return;
     if(!invoiceVerify()) return;
-    $("#invoiceTotalMoney").val(parseFloat(monthChoose+payChoose+cardChoose).toFixed(2));
+    $("#invoiceTotalMoney").val(parseFloat(monthChoose+payChoose+cardChoose+chargChoose).toFixed(2));
     var ajaxCheckUrl = absolutebreswebroot + invoicewebroot + "obtainInvoice/ObtainInvoiceCheck";
     if(servicetype == "26" && $('input:radio[name="postBean.payment_method"]:checked').val() == "3"){
         $("#invoiceForm").attr("action",absolutebreswebroot + invoicewebroot + "obtainInvoice/ObtainInvoiceApply.action");
@@ -450,9 +450,9 @@ function subInvoice() {
     }
 }
 /** 基础检验(不用区分邮寄/自领取) */
-function normalVerify(monthChoose,payChoose,cardChoose) {
+function normalVerify(monthChoose,payChoose,cardChoose,chargChoose) {
     try{
-        if((monthChoose + payChoose + cardChoose) <= 0) {
+        if((monthChoose + payChoose + cardChoose+chargChoose) <= 0) {
             throw "请选择要打印的发票信息!";
         }
         if(cardChoose > 0) {

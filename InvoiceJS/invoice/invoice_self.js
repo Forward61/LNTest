@@ -16,15 +16,28 @@ function getCardorChargeInvInfo(type,servicetype){
         if(isEmpty(serviceArr[i])) continue;
         getInfo(serviceArr[i]);
     }
-    //showProvCity();
- 
 }
-
+$("#invoiceprovice").change(
+    function(){
+        var sel = $("#invoiceprovice").val();
+        $("#provinceHid").val(sel);
+        var cityoption = "<option value='-'>请选择</option>";
+        if (sel != "-") {
+            for (var j = 0; j < city[sel].length; j++) {
+                cityoption = cityoption + "<option value='" + city[sel][j]["id"] + "'>" + city[sel][j]["name"] + "</option>";
+            }
+        }
+        $("#invoicecity").html(cityoption);
+    }
+);
+$("#invoicecity").change(function() {//邮寄地市选择
+        var city = $(this).val();
+        $("#cityHid").val(city);
+    });
 function getInfo(service) {
     var uri = "GetBuyCardInvoice";
     $.ajax({url:absolutebreswebroot+invoicewebroot + "obtainInvoice/" + uri,
             type: "get",
-            //data : {"service":service},
             data : {"service":service},
             dataType:'json',
             success:function(data){
@@ -35,27 +48,6 @@ function getInfo(service) {
             error:function(xml){
             }
         });
-}
-function showProvCity(){
-               /*var provincename = getProvinceName(provArr[0]);
-               var cityname = getCityName(provArr[0], provArr[1]);
-               var municipality = ['011','013','031','083'];
-               if(municipality.toString().indexOf(provArr[0]) > -1){邮寄地址省市自动显                   $(".adressAreaInfo").empty().text(provincename);
-               } else {
-                   $(".adressAreaInfo").empty().text(provincename + "  " + cityname);
-               }
-               */
-               
-        var provincename = getProvinceName(provArr[0]);
-            var cityname = getCityName(provArr[0], provArr[1]);
-            var municipality = ['011','013','031','083'];
-            if(municipality.toString().indexOf(provArr[0]) > -1){
-                //$(".invoiceTop02 span").empty().text("提供"+$('#totalPrice').html()+"发票，交费后第二天凭有效证件到" + cityname + "市联通营业厅（非代理点）领取，如需要实销月结发票，请输入其他金额交费。");
-            	$(".adressAreaInfo").empty().text(provincename);
-            } else {
-                //$(".invoiceTop02 span").empty().text("提供"+$('#totalPrice').html()+"发票，交费后第二天凭有效证件到" + cityname + "市联通营业厅（非代理点）领取，如需要实销月结发票，请输入其他金额交费。");
-            	$(".adressAreaInfo").empty().text(provincename + "  " + cityname);
-            }
 }
 /** 页面是否能展示 */
 function showPage() {

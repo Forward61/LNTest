@@ -43,9 +43,9 @@ $(function() {
     //获取一卡充类型发票
     if(is4G && servicetype == '26') $("#card_list").hide();//CB号码不展示一卡充列表
     if(((mail_servicetype.indexOf("06")>=0 || mail_servicetype.indexOf("07")>=0 || mail_servicetype.indexOf("08")>=0)&& !is4G) || receive_servicetype.indexOf("06")>=0 || receive_servicetype.indexOf("07")>=0 || receive_servicetype.indexOf("08")>=0) {
-        //getInvoiceInfo("card");
-        //showProvCity();
         getCardorChargeInvInfo("card",receive_servicetype);
+        //fillProvinceCities(invoiceprovice,invoicecity);
+        
     }
 });
 function initOldInvoice() {
@@ -231,6 +231,7 @@ function fillChargeInfo(itype,month) {
     var id = totalMoney > 0 ? "invoice_charge" : "no_charge";
     $("#" + id).addClass("list_table").show();
     if(totalMoney > 0) $(".invoice_name").show();
+    $(".invoiceproviceSelf").html(getProvinceName(user_province)+"省"+getCityName(user_province,user_city)+"市");
     return totalMoney > 0;
 }
 
@@ -297,7 +298,7 @@ function getInvoiceTypes(config,type,servicetype) {
 }
 /** 计算剩余可打发票额度  true:额度充足,可选择  false:额度不足,不可选择  取消选择,计算取消后的剩余可打额度 */
 function calRestList(obj,checked){
-    if(obj.parents(".list_table").attr("id") == "invoice_card") return true;
+    if(obj.parents(".list_table").attr("id") == "invoice_card"||obj.parents(".list_table").attr("id") == "invoice_charge") return true;
     var choose_money = parseFloat(obj.parents("tr").attr("money"));
     if(rest_limit < choose_money && !checked) return false;
     rest_limit = !checked ? parseFloat(rest_limit - choose_money).toFixed(2) : parseFloat(rest_limit + choose_money).toFixed(2);
@@ -327,7 +328,7 @@ function calOneRestList(obj,checked) {
 /** 全选计算可打发票额度  true:客户充足,可全选  false:额度不足,不可全选  全取消选择,计算全取消后的剩余可打额度 */
 function calAllRest(obj,checked) {
     var id = obj.parents(".list_table").attr("id");
-    if(id == "invoice_card") return true;
+    if(id == "invoice_card"||id == "invoice_charge") return true;
     var otherTableMoney = id == "invoice_month" ? calMoneyChoosen("invoice_pay") : calMoneyChoosen("invoice_month");//如果当前全选的是月结类,则计算实缴类型中已选择的发票记录金额总额
     var all_choose_money = parseFloat(obj.parents(".list_table").find('tbody').attr("money"));//
     if(invoice_limit < (otherTableMoney + all_choose_money) && checked) return false;
@@ -370,12 +371,25 @@ function calMoneyChoosen(id) {
     $("#"+id).next(".invoicelist").val(ids);
     return parseFloat(parseFloat(choosen_money).toFixed(2));
 }
+function calMoneyChoosenCharege(id) {
+    var choosen_money = 0;
+    var ids = "";
+    $("#" + id + " tbody tr").slice(0).each(function(){
+        if($(this).find(":checkbox").attr("checked")) {
+            choosen_money += parseFloat($(this).attr("money"));
+            var chooseid = $(this).attr("id");
+            ids += (isEmpty(ids) ? "" : ",") + ("invoice_charge"==id ? chooseid : chooseid.replace('-',''));//$(this).attr("id");
+        }
+    });
+    $("#"+id).next(".invoicelist").val(ids);
+    return parseFloat(parseFloat(choosen_money).toFixed(2));
+}
 /** 更改支付类型 */
 function fillPayType() {
     //var itype = $(".choose").eq(0).attr("class").indexOf("mail_invoice") >= 0 ? "26" : "27";//邮寄,自领取
     if("27" == servicetype) {
-        var month = calMoneyChoosen("invoice_month") , pay = calMoneyChoosen("invoice_pay"), card = calMoneyChoosen("invoice_card");
-        if(parseFloat(card) > 0) $(".oneself_receive_box,.submitData").show();
+        var month = calMoneyChoosen("invoice_month") , pay = calMoneyChoosen("invoice_pay"), card = calMoneyChoosen("invoice_card"),charge = calMoneyChoosenCharege("invoice_charge");
+        if(parseFloat(card) ||parseFloat(charge) > 0) $(".oneself_receive_box,.submitData").show();
         else $(".oneself_receive_box,.submitData").hide();
         return;
     }
