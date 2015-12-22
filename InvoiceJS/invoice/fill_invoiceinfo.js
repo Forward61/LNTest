@@ -44,8 +44,6 @@ $(function() {
     if(is4G && servicetype == '26') $("#card_list").hide();//CB号码不展示一卡充列表
     if(((mail_servicetype.indexOf("06")>=0 || mail_servicetype.indexOf("07")>=0 || mail_servicetype.indexOf("08")>=0)&& !is4G) || receive_servicetype.indexOf("06")>=0 || receive_servicetype.indexOf("07")>=0 || receive_servicetype.indexOf("08")>=0) {
         getCardorChargeInvInfo("card",receive_servicetype);
-        //fillProvinceCities(invoiceprovice,invoicecity);
-        
     }
 });
 function initOldInvoice() {
@@ -66,6 +64,7 @@ function initOnlineInvoice() {
         userJifen();
     }
     fillProvinceCitiesRegion("mailproviceid","--省--","mailcityid","--市--","mailregionid","--区--");//邮寄省份初始化
+    
 }
 
 /** 填充发票记录信息 */

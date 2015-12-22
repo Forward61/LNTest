@@ -45,12 +45,10 @@ $(function(){
         if (emClass=="open") {
             _this.parents(".invoice_list_box").find(".list_table").hide();
             _this.find('em').attr('class','close');
-            _this.parents(".invoice_list_box").find('.selAreaCity').hide();
             if(_this.parents(".invoice_list_box").attr("id") == "card_list" && parseFloat(_this.next("table").find("tbody").attr("money")).toFixed(2) > 0) $(".invoice_name").hide();
         }else{
             _this.parents(".invoice_list_box").find(".list_table").show();
             _this.find('em').attr('class','open');
-            _this.parents(".invoice_list_box").find('.selAreaCity').show();
             if(_this.parents(".invoice_list_box").attr("id") == "card_list" && parseFloat(_this.next("table").find("tbody").attr("money")).toFixed(2) > 0) $(".invoice_name").show();
         }
     });

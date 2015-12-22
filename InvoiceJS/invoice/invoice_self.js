@@ -5,6 +5,7 @@ var servicetype = '27';
 var webRoot = invoicewebroot;
 $(function(){
     getPostOrInvoiceHistory("getHistoryGetOwn","historyGetOwn","");
+    fillProvinceCities("invoiceprovice","invoicecity");
 });
 
 /*购卡和直充发票分开ln*/
