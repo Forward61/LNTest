@@ -21,8 +21,8 @@ $("#invoiceprovice").change(
     function(){
         var sel = $("#invoiceprovice").val();
         $("#provinceHid").val(sel);
-        var cityoption = "<option value='-'>请选择</option>";
-        if (sel != "-") {
+        var cityoption = "<option value=''>请选择</option>";
+        if (!isEmpty(sel)) {
             for (var j = 0; j < city[sel].length; j++) {
                 cityoption = cityoption + "<option value='" + city[sel][j]["id"] + "'>" + city[sel][j]["name"] + "</option>";
             }
