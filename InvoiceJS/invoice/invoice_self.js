@@ -18,6 +18,7 @@ function getCardorChargeInvInfo(type,servicetype){
         getInfo(serviceArr[i]);
     }
 }
+//选择省份，填充地市
 $("#invoiceprovice").change(
     function(){
         var sel = $("#invoiceprovice").val();
@@ -31,10 +32,12 @@ $("#invoiceprovice").change(
         $("#invoicecity").html(cityoption);
     }
 );
-$("#invoicecity").change(function() {//邮寄地市选择
+//邮寄地市选择
+$("#invoicecity").change(function() {
         var city = $(this).val();
         $("#cityHid").val(city);
     });
+//异步获取购卡和直充发票数据
 function getInfo(service) {
     var uri = "GetBuyCardInvoice";
     $.ajax({url:absolutebreswebroot+invoicewebroot + "obtainInvoice/" + uri,

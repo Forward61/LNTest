@@ -201,7 +201,7 @@ function fillCardInfo(itype,month) {
     return totalMoney > 0;
 }
 
-
+//填充直充发票记录
 function fillChargeInfo(itype,month) {
 //    month = month==0 ? 1 : month;//最近一笔与最近一个月记录一致
     var beforeDate = getLastMonthDate(new Date(), month);
@@ -370,6 +370,7 @@ function calMoneyChoosen(id) {
     $("#"+id).next(".invoicelist").val(ids);
     return parseFloat(parseFloat(choosen_money).toFixed(2));
 }
+/** 计算直充table中已选可打发票金额 */
 function calMoneyChoosenCharege(id) {
     var choosen_money = 0;
     var ids = "";
