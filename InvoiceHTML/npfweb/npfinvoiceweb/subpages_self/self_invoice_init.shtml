@@ -4,7 +4,7 @@
     <input id="invoiceBeanneedinvoice" type="hidden" value="1" name="invoiceBean.need_invoice"><!-- 1:需要发票 -->
     <!--input id="invoiceBeaninvoicetype" type="hidden" value="" name="invoiceBean.invoice_type"><!-- 1月结  0,2 次日领取 -->
     <input id="invoiceBeanismailing" type="hidden" value="0" name="invoiceBean.is_mailing"><!-- 1:邮寄 0:不邮寄 -->
-    <input id="invoiceTotalMoney" type="hidden" value="1" name="postBean.invoice_total_money"><!-- 1:邮寄 0:不邮寄 -->
+    <input id="invoiceTotalMoney" type="hidden" value="1" name="invoiceBean.invoice_total_money"><!-- 1:邮寄 0:不邮寄 -->
     <input id="unicardServicetype" type="hidden" value="" name="postBean.unicardServicetype">
           <!--div class="invoice_records invoice_sel_box" style="display:none;">
             <p>查询领取发票记录：</p>
@@ -106,14 +106,7 @@
             <tr>
                 <td>无记录</td>
             </tr>
-        </table>
-       <!-- <div class="invoice_name" style="display:none;">
-            <label>发票抬头：</label>
-            <input type="text" class="textOne" name="invoiceBean.invoice_head" id="posttitle" maxlength="50"/>
-            <input style="display:none">
-            <span class="c999"><b>*</b>（选择购卡/直充发票请填写发票抬头）</span>
-        </div>
-         --> 
+        </table>       
     </div>
     <!--购卡发票-->
     <!--填写自领取身份信息-->
