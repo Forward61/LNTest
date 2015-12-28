@@ -465,6 +465,9 @@ function normalVerify(monthChoose,payChoose,cardChoose,chargChoose) {
             checkInvoiceTitle($("#posttitle"));
             if(servicetype == '27')
                checkProvCity($("#invoicecity"),"请选择省份地市！");
+               if(noSelfInvoice){
+                  return false;//您选择的省分仅支持月结发票的打印，选择其它省分
+               }
         }
     } catch(err) {
         $(".sub_btn").next(".error").html(err).show();

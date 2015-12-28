@@ -24,6 +24,20 @@ $("#invoiceprovice").change(
         var sel = $("#invoiceprovice").val();
         $("#provinceHid").val(sel);
         var cityoption = "<option value=''>请选择</option>";
+        $.ajax({
+          url:absolutebreswebroot+ webRoot + "Invoice/getInvoiceRuleFinishPage",
+          data:{"servicetype":"08","numberprovince":sel},
+          dataType: "jsonp",
+          jsonp: "callback",
+          jsonpCallback:"invoiceRule",
+          success: function(data){
+              invoicerule = data;
+              setOnlineTips(invoicerule["isOnline"]);
+          },
+          errror: function(){
+              $(".noSelfInvoiceTip").empty().text("加载发票信息失败,请刷新再试！");
+          }
+        });
         if (!isEmpty(sel)) {
             for (var j = 0; j < city[sel].length; j++) {
                 cityoption = cityoption + "<option value='" + city[sel][j]["id"] + "'>" + city[sel][j]["name"] + "</option>";
@@ -36,6 +50,16 @@ $("#invoiceprovice").change(
 $("#invoicecity").change(function() {
         var city = $(this).val();
         $("#cityHid").val(city);
+        servicetypetemp ="08";
+        invoicetype = isEmpty(invoicerule[servicetypetemp]) ? "1" : invoicerule[servicetypetemp]["invoice_type"];
+        if (invoicetype == "0") { // 自取
+            noSelfInvoice=false;
+            $(".noSelfInvoiceTip").empty().text("");
+        }
+        else{
+            $(".noSelfInvoiceTip").empty().text("您选择的省分仅支持月结发票的打印，选择其它省分。");
+            noSelfInvoice=true;
+        }
     });
 //异步获取购卡和直充发票数据
 function getInfo(service) {

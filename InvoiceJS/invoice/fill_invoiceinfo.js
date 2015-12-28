@@ -230,7 +230,17 @@ function fillChargeInfo(itype,month) {
     var id = totalMoney > 0 ? "invoice_charge" : "no_charge";
     $("#" + id).addClass("list_table").show();
     if(totalMoney > 0) $(".invoice_name").show();
-    $(".invoiceproviceSelf").html(getProvinceName(user_province)+"省"+getCityName(user_province,user_city)+"市");
+    var tempMunicipality = getProvinceName(user_province);
+    var municipalityName =['','北京','天津','重庆','上海'];
+    if(municipalityName.indexOf(tempMunicipality)!=-1){
+    	
+    }
+    if($.inArray(tempMunicipality, municipalityName)){
+        $(".invoiceproviceSelf").html(getCityName(user_province,user_city)+"市");
+    }
+    else{
+        $(".invoiceproviceSelf").html(getProvinceName(user_province)+"省"+getCityName(user_province,user_city)+"市");
+    }
     return totalMoney > 0;
 }
 
