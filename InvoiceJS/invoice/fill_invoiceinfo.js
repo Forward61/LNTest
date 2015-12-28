@@ -13,6 +13,7 @@ var mail_servicetype = "" , receive_servicetype = "" , mail_invoicetype = "" , r
 var phone_login = "01,06,11,16" ; fix_login = "02,03,04,08";
 var types = [];
 var paytypes = {};
+var noSelfInvoice=false;//自取页面选择地市不支持自取发票
 $(function() {
     webRoot = invoicewebroot;
     isJudgeLogin(invoicewebroot,false,"");//获取用户登录及省份信息
