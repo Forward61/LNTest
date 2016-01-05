@@ -1,0 +1,29 @@
+<div class="fill_the_invoice">
+    <div class="sel_scope">
+        <p class="clr">您可查询领取近6个月在中国联通的未打印发票：</p>
+        <div class="dChange fixed">
+            <!-- a id="one" month="0" class="on">最近一笔</a-->
+            <a id="one" month="1" class="on">近一个月</a>
+            <a id="three" month="3">近三个月</a>
+            <a id="six" month="6">近六个月</a>
+            <input type="hidden" name="postBean.month_method" class="chooseMonth" value=""/>
+        </div>
+    </div>
+    <!--#if expr="$arg_servicetype=26"-->
+    <div class="print_lines" style="display:none;">
+        <div class="lines_tip">
+            <h6>可打印发票额度</h6>
+        </div>
+        <div class="lines_body">
+            <p class="fs14">可打印额度：<em class="cOrange"><label class="invoice_limit">0</label>元</em></p>
+            <p>已选发票：<em class="cOrange"><label class="choosen_limit">0</label>元</em></p>
+            <p>剩余额度：<em class="cOrange"><label class="rest_limit">0</label>元</em></p>
+            <span class="help_infor" style="float:right;margin-right:0px;">
+                <i class="help"></i>
+                <a class="left" href="javascript:">什么是可打印额度</a>
+                <u style="display:none;" class="help_body">用户最多能打印的发票金额之和，购卡/直充不算在总可打额度中。</u>
+            </span>
+        </div>
+    </div>
+    <!--#endif-->
+</div>

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+<!--#include virtual="/npfweb/module/headtag.html"-->
+<title>邮寄发票记录</title>
+<link type="text/css" rel="stylesheet" href="cdn_location/css/jquery-ui-1.10.3.custom.css?v=cdn_version"/>
+<link type="text/css" rel="stylesheet" href="cdn_location/css/invoice.css?v=cdn_version"/>
+<script type="text/javascript" >
+var mid = "m_invoice";
+var BaseResPath ="https://upay.10010.com/npfweb/npf3.0/";
+</script>
+</head>
+<body>
+<!-- 内容  begin-->
+<div id="wapContent">
+    <div class="coatLayer">
+        <div id="cotainer" class="content fixed">
+            <!-- no left or right -->
+                <!--#include virtual="/npfweb/npfinvoiceweb/subpages_post/invoice_crumb.html" -->
+                <div class="invoice_body">
+                    <ul class="iTabList service">
+                        <li><a href="invoice_post_fill.htm">邮寄发票</a></li>
+                        <li class="on">邮寄发票记录</li>
+                    </ul>
+                    <div class="fill_the_invoice invoice_sel_box fixed service">
+                        <!--#include virtual="/npfweb/npfinvoiceweb/subpages/invoice_search_init.shtml?servicetype=26" -->
+                    </div>
+                </div>
+                <div class="pointCon" id="messageTipsDiv" style="display:none;">
+                    <h4 class="hrt" id="messageTips"><label>温馨提示</label></h4>
+                </div>
+        </div>
+        <!--#include virtual="/npfweb/module/tips/errortip.html" -->
+        <div class="thick-div" id="thickDiv" style="display:none;"></div>
+        <!--== rightCon end==-->
+        <div class="clr"></div>
+    </div>
+</div>
+<!-- 内容  begin-->
+</body>
+<!--#include virtual="/npfweb/module/foottag_invoice.shtml" -->
+<!--#if expr="$concat_tag=0"-->
+<script language="javascript" type="text/javascript" src="cdn_location/js/invoice/invoice_search.js?v=cdn_version"></script>
+<script language="javascript" type="text/javascript" src="cdn_location/js/jquery-ui-1.10.3.custom.js?v=cdn_version"></script>
+<!--#else-->
+<script language="javascript" type="text/javascript" src="cdn_location/js/??invoice/invoice_search.js,jquery-ui-1.10.3.custom.js,clipboard/ZeroClipboard.js?v=cdn_version"></script>
+<!--#endif-->
+<script type="text/javascript">
+    var servicetype="26";
+</script>
+</html>

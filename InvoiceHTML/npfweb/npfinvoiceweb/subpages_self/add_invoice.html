@@ -1,0 +1,43 @@
+<!-- 新增邮寄信息 -->
+<div class="invoice_fill_box fixed" style="display:none;">
+    <h6>邮寄信息</h6>
+    <table border="0" cellspacing="10" width="100%" class="invoice_fill invoice_post">
+        <tr>
+            <th>所在地区：</th>
+            <td>
+                <select class="sel_style left width100" id="mailproviceid" name=""><option value="">--省--</option></select>
+                <select class="sel_style left width100" id="mailcityid" name=""><option value="">--市--</option></select>
+                <select class="sel_style left width100" id="mailregionid" name=""><option value="">--区/县--</option></select>
+                <div class="error" style="display: none;*width:120px;">请选择省份地市区县！</div>
+            </td>
+        </tr>
+        <tr>
+            <th>详细地址：</th>
+            <td class="address">
+                <span class="left adressAreaInfo"></span><input autocomplete="off" id="postaddr" type="text" class="ipt_style width350" maxlength="30"/>
+                <div class="error" style="display: none;*width:120px;">请输入正确的联系地址！</div>
+            </td>
+        </tr>
+        <tr>
+            <th>收&nbsp;&nbsp;件&nbsp;&nbsp;人：</th>
+            <td>
+                <input autocomplete="off" id="postname" type="text" class="ipt_style width180" maxlength="12"/>
+                <div class="error" style="display: none;*width:120px;">请输入正确的收件人！</div>
+            </td>
+        </tr>
+        <tr>
+            <th>联系电话：</th> 
+            <td>
+              <input autocomplete="off" id="postphone" type="text" class="ipt_style width180" maxlength="11"/>
+              <div class="error" style="display: none;*width:120px;">请输入正确的联系电话！</div>
+            </td>
+        </tr>
+        <tr>
+            <th></th>
+            <td>
+                <input type="button" class="invoice_btn byMail left mr5" value="确认发票信息"/>
+                <input type="button" class="invoice_close_btn left" value="取消"/>
+            </td>
+        </tr>
+    </table>
+</div>
