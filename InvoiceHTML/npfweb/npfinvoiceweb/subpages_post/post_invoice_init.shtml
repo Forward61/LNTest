@@ -134,6 +134,7 @@
             <input type="text" class="textOne" name="invoiceBean.invoice_head" id="posttitle" maxlength="50"/>
             <input style="display:none">
             <span class="c999"><b>*</b>（选择购卡/直充发票请填写发票抬头）</span>
+            <label class="left" style="margin-left: 24px">发票归属地：<b class="invoiceprovice"></b></label>
         </div>
     </div>
     <!--购卡发票-->

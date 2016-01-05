@@ -53,6 +53,7 @@
                         <select id="invoicecity" class=" selStyle01 left"><option value="">请选择</option></select>
                         <input id="provinceHid"  type="hidden" name="invoiceBean.province_code" />
                         <input id="cityHid" type="hidden" name="invoiceBean.city_code"/>
+                        <span class="noSelfInvoiceTip left bRed" ></span>
                     </td>
                 </tr>
             </tfoot>

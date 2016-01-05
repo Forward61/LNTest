@@ -1,6 +1,6 @@
 <!--填写邮寄信息-->
 <div class="fill_mail_infor fixed" style="display:none;">
-    <h6 class="fixed"><b class="left">邮寄信息</b><span class="add_invoice add_post right">新增邮寄信息</span></h6>
+    <h6 class="fixed"><b class="left">邮寄信息</b><span class="add_invoice add_post">新增邮寄信息</span></h6>
     <div class="mail_infor">
         <div class="invoice_tip post_tip" style="display:none;">
             <span class="cOrgB">此处提供发票提示信息，例如：提供98.50元发票，您是VIP金钻用户，可免费邮寄发票！请填写相关发票信息。</span>
