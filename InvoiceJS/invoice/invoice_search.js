@@ -36,20 +36,31 @@ $(function() {
         if(isEmpty(wantPage)) {
             return;
         }
-        wantPage = wantPage <= 0 ? 1 : (wantPage > recordsPage ? recordsPage : wantPage);
-        var wantFlag;
-        if ((parseInt(wantPage) / recordsPerPage) > Math.floor(parseInt(wantPage) / recordsPerPage)) {//块数
-            wantFlag = Math.floor(parseInt(wantPage) / recordsPerPage) + 1;
+        if (wantPage >= 1 && wantPage <= recordsPage && !isNaN(wantPage) ) {//第一页....第五页
+            var wantFlag;
+             if ((parseInt(wantPage) / recordsPerPage) > Math.floor(parseInt(wantPage) / recordsPerPage)) {//块数
+                wantFlag = Math.floor(parseInt(wantPage) / recordsPerPage) + 1;
+            } else {
+                wantFlag = Math.floor(parseInt(wantPage) / recordsPerPage);
+            }
+            
+            if (wantPage > (pageFlag * recordsPerPage)) {
+                pageFlag = wantFlag;
+                currentPage = wantPage;
+                queryByDate(false);
+            }else if (wantPage < ((pageFlag - 1) * recordsPerPage + 1)) {
+                currentPage = wantPage;
+                pageFlag = wantFlag;
+                queryByDate(false);
+            }else{
+                currentPage = wantPage;
+                pageFlag = wantFlag;
+                goPage(currentPage);
+            } 
         } else {
-            wantFlag = Math.floor(parseInt(wantPage) / recordsPerPage);
+            $(".tips").html("该页面不存在 ").show();
         }
-        currentPage = wantPage;
-        pageFlag = wantFlag;
-        if (wantPage > (pageFlag * recordsPerPage) || wantPage < ((pageFlag - 1) * recordsPerPage + 1)) {
-            queryByDate(false);
-        }else{
-            goPage(currentPage);
-        } 
+        
         pageCodeShow();
     });
 });
@@ -203,7 +214,11 @@ function pageCodeShow(){
     $(".clickpage").append("<span id='prevPage' class='pageUpGray' >上一页</span>" + htm
                          + "<span id='nextPage' class='nextPageGray' >下一页</span> ");
     $(".clickpage a").removeClass("pagingSelect");//除去页码样式
-    $(".clickpage a").eq((currentPage-pageFlag*pagesPerFlag)-1).addClass("pagingSelect");
+    $(".clickpage a").each(function() {
+        if (parseInt($(this).html()) == currentPage) {
+            $(this).addClass("pagingSelect");
+        }
+    });
     changeColor4NextAndPrev(currentPage);
     addFunction();
 }

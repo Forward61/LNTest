@@ -55,12 +55,19 @@ $("#invoicecity").change(function() {
         if (invoicetype == "0") { // 自取
             noSelfInvoice=false;
             $(".noSelfInvoiceTip").empty().text("");
+            $("#invoice_card").find("input").attr("disabled",false);
+            var card = calMoneyChoosen("invoice_card");
+            if(parseFloat(card) > 0) $(".oneself_receive_box,.submitData").show();
+            
         }
         else{
-            $(".noSelfInvoiceTip").empty().text("您选择的省分仅支持月结发票的打印，选择其它省分。");
+            $(".noSelfInvoiceTip").empty().text("您选择的省分仅支持月结发票的打印，无需勾选购卡发票，每月月初到本市自有营业厅领取。");
             noSelfInvoice=true;
-        }
-    });
+            $("#invoice_card").find("input").attr("checked",false).attr("disabled",true);
+            var charge = calMoneyChoosenCharege("invoice_charge");
+            if(parseFloat(charge) <= 0) $(".oneself_receive_box,.submitData").hide();
+      }
+});
 //异步获取购卡和直充发票数据
 function getInfo(service) {
     var uri = "GetBuyCardInvoice";

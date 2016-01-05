@@ -43,6 +43,7 @@ $(function() {
     }
     //获取一卡充类型发票
     if(is4G && servicetype == '26') $("#card_list").hide();//CB号码不展示一卡充列表
+    if(servicetype=='27') receive_servicetype += receive_servicetype.indexOf('08')>0 ? "" : ",08";
     if(((mail_servicetype.indexOf("06")>=0 || mail_servicetype.indexOf("07")>=0 || mail_servicetype.indexOf("08")>=0)&& !is4G) || receive_servicetype.indexOf("06")>=0 || receive_servicetype.indexOf("07")>=0 || receive_servicetype.indexOf("08")>=0) {
         getCardorChargeInvInfo("card",receive_servicetype);
     }
@@ -65,7 +66,6 @@ function initOnlineInvoice() {
         userJifen();
     }
     fillProvinceCitiesRegion("mailproviceid","--省--","mailcityid","--市--","mailregionid","--区--");//邮寄省份初始化
-    
 }
 
 /** 填充发票记录信息 */
@@ -96,6 +96,9 @@ function fillMonthInfo(itype,month) {
     var beforeDate = getLastMonthDate(new Date(), month+1);
     $("#invoice_month tbody").attr("money","").attr("servicetypes","");
     $("#invoice_month , #no_month").removeClass("list_table").hide();$("#month_list .self").hide();$("#month_list h6 label").removeClass("nochoose");
+    var monthPrintFee = isEmpty(month_invoice["total_print_fee"]) ? "0" : parseFloat(month_invoice["total_print_fee"]);
+    month_invoice_limit = monthPrintFee/100 <= 0 ? 0 : monthPrintFee/100;
+    invoice_limit = month_invoice_limit;
     var tips = month_invoice["month_rec_info"];
     if(isEmpty(tips) || "26" == itype && mail_invoicetype.indexOf("1") < 0 || "27" == itype && receive_invoicetype.indexOf("1") < 0) {//邮寄,无月结/自领取,无月结
         $("#no_month").addClass("list_table");
@@ -122,16 +125,15 @@ function fillMonthInfo(itype,month) {
     } else {
         $("#no_month").addClass("list_table").show();
     }
-    month_invoice_limit = totalMoney <= 0 && invoice_limit <= 0 ? 0 : parseFloat(month_invoice["total_print_fee"])/100;
-    invoice_limit = month_invoice_limit;
     return totalMoney > 0;
 }
-
-
 function fillPayInfo(itype,month) {
     var beforeDate = getLastMonthDate(new Date(), month);
     $("#invoice_pay tbody").attr("money","").attr("servicetypes","");
     $("#invoice_pay , #no_pay").removeClass("list_table").hide(); $("#pay_list .self").hide();$("#pay_list h6 label").removeClass("nochoose");
+    var payPrintFee = isEmpty(pay_invoice["total_print_fee"]) ? "0" : parseFloat(pay_invoice["total_print_fee"]);
+    pay_invoice_limit = payPrintFee/100 <= 0 ? 0 : payPrintFee/100;
+    invoice_limit = pay_invoice_limit;
     var tips = pay_invoice["fee_rec_info"];
     if(isEmpty(tips) || "26" == itype && mail_invoicetype.indexOf("0") < 0 || "27" == itype && receive_invoicetype.indexOf("0") < 0) {//邮寄,无实缴/自领取,无实缴
         $("#no_pay").addClass("list_table")
@@ -157,8 +159,6 @@ function fillPayInfo(itype,month) {
     } else {
         $("#no_pay").addClass("list_table").show();
     }
-    pay_invoice_limit = totalMoney <= 0 && invoice_limit <= 0 ? 0 : parseFloat(pay_invoice["total_print_fee"])/100;
-    invoice_limit = pay_invoice_limit;
     return totalMoney > 0;
 }
 function createPayfeeHtml(tips,i,money,able) {
@@ -199,6 +199,11 @@ function fillCardInfo(itype,month) {
     var id = totalMoney > 0 ? "invoice_card" : "no_card";
     $("#" + id).addClass("list_table").show();
     if(totalMoney > 0) $(".invoice_name").show();
+    if(servicetype == '26') {
+        var proname = municipality.toString().indexOf(user_province) >= 0 ? "" : getProvinceName(user_province)+"省 "
+        $(".invoiceprovice").html(proname+getCityName(user_province,user_city)+"市");   
+    }
+    $("#invoice_card").find("input").attr("checked",false).attr("disabled",false);
     return totalMoney > 0;
 }
 
@@ -231,24 +236,10 @@ function fillChargeInfo(itype,month) {
     var id = totalMoney > 0 ? "invoice_charge" : "no_charge";
     $("#" + id).addClass("list_table").show();
     if(totalMoney > 0) $(".invoice_name").show();
-    var tempMunicipality = getProvinceName(user_province);
-    var municipalityName =['','北京','天津','重庆','上海'];
-    if(municipalityName.indexOf(tempMunicipality)!=-1){
-    	
-    }
-    if($.inArray(tempMunicipality, municipalityName)){
-        $(".invoiceproviceSelf").html(getCityName(user_province,user_city)+"市");
-    }
-    else{
-        $(".invoiceproviceSelf").html(getProvinceName(user_province)+"省"+getCityName(user_province,user_city)+"市");
-    }
+    var proname = municipality.toString().indexOf(user_province) >= 0 ? "" : getProvinceName(user_province)+"省 "
+    $(".invoiceproviceSelf").html(proname+getCityName(user_province,user_city)+"市");
     return totalMoney > 0;
 }
-
-
-
-
-
 /** 取可打发票记录 */
 function getInvoiceInfo(type) {
     var uris = {"month":"obtainMonthInvoite","pay":"obtainPayfeeInvoice","card":"GetBuyCardInvoice"};
