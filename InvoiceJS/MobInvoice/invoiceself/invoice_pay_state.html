@@ -1,0 +1,39 @@
+<header class="page-head" ng-show="invoice.isWap">
+    <p class="page-title">领取发票完成</p>
+</header>
+
+<article  ng-class="{'mt10px':!invoice.isWap,'mt55px':invoice.isWap}">
+    <h6 class="details-title">
+        <em ng-if="(invoice.orderState==02)" class="icon01"></em>
+        <span class="success" ng-if="(invoice.orderState==02&&invoice.is_mailing== 1)">您的发票领取信息已成功提交</b></span>
+        <span class="success" ng-if="(invoice.orderState==02&&invoice.is_mailing== 1&&postBean.payment_method == 2)">扣减{{invoice.payAmount}}积分</span>
+        <span class="success" ng-if="(invoice.orderState==02&&invoice.is_mailing!= 1)">  您已成功领取发票！</span>
+        <br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        </span>
+        <em ng-if="(charge.orderState==00)" class="icon02"></em>
+        <span class="success" ng-if="(invoice.orderState==00&&invoice.payState == 3)">抱歉，您的积分扣减超时,将在24小时之内告知订单结果，请耐心等待！</b></span>
+        <span class="success" ng-if="(invoice.orderState==00&&invoice.payState != 3)">抱歉，您的操作未能完成,请重新领取！</b></span>
+
+        <em class="icon01"  ng-if="(invoice.orderState!=02&&invoice.orderState!=00&&invoice.is_mailing== 1&&invoice.payment_method == 2)"> </em>
+        <em class="icon02" ng-if="(invoice.orderState!=02&&invoice.orderState!=00&&invoice.is_mailing== 1&&invoice.payment_method != 2)"> </em>
+        <span class="success"  ng-if="(invoice.orderState!=02&&invoice.orderState!=00&&invoice.is_mailing== 1&&invoice.payment_method == 2)" >您的发票邮寄信息已成功提交，扣减{{commonBean.payAmount}}积分，感谢您的使用！</span>
+        <span class="success"  ng-if="(invoice.orderState!=02&&invoice.orderState!=00&&invoice.is_mailing== 1&&invoice.payment_method != 2)" >抱歉，您的发票同步未能完成，请重新操作！</span>
+
+    </h6>
+    <ul class="infor-list">
+        <li><span class="c666">发票金额：</span><span class="price">{{invoice.invoiceTotalMoney}}元</span></li>
+        <li><span class="c666">邮寄费用：
+
+        </span><span class="price" ng-if="( invoice.is_mailing== 1&& invoice.payment_method == 2)">{{invoice.payAmount}}积分</span>
+        </span><span class="price" ng-if="( invoice.is_mailing== 1&& invoice.payment_method != 2)">{{invoice.payAmount}}元</span>
+        </span><span class="price" ng-if="( invoice.is_mailing!= 1)">{{invoice.payAmount.toString()}}元</span>
+        </li>
+    </ul>
+    <div class="plr10 fixed btn-area">
+        <button class="button-style btn-ff9000 width56 mr4 left view-record" ng-click="goQuery()">查看发票领取记录</button>
+        <button class="button-style btn-f60 width40 left go-index" ng-click="goFirstPage()">返回首页</button>
+    </div>
+    <div class="pointCon padd dispay" id="messageTipsDiv" style="display:none;">
+        <h4 class="hrt" id="messageTips"    ><label>温馨提示：</label></h4>
+    </div>
+</article>

@@ -1,0 +1,19 @@
+<header class="page-head" ng-show="invoice.isWap">
+  <label class="return-btn"><a href="javascript:void(0)" ng-click="goBack()" class="arrow-l"></a></label>
+  <p class="page-title">发票查询</p>
+</header>
+
+<article class="search-page" ng-class="{'mt10px':!invoice.isWap,'mt55px':invoice.isWap}">
+  <!--h1>领取方式</h1>
+  <section class="conditions fixed">
+    <span ng-class="{'width32':true,'mr2':true,'current':invoice.isPost}" ng-click="chooseGetWay(true)" ng-show="invoice.isOnlineProvince">邮寄发票</span>
+    <span ng-class="{'width32':true,'current':!invoice.isPost}" ng-click="chooseGetWay(false)">自取发票</span>
+  </section-->
+  <h1>查询时间</h1>
+  <section class="conditions fixed">
+    <span ng-class="{'width32':true,'mr2':true,'current':invoice.month==1}" ng-click="chooseMonth(1)">一个月</span>
+    <span ng-class="{'width32':true,'mr2':true,'current':invoice.month==3}" ng-click="chooseMonth(3)">三个月</span>
+    <span ng-class="{'width32':true,'current':invoice.month==6}" ng-click="chooseMonth(6)">六个月</span>
+  </section>
+  <button class="button-style width100 btn-f60 mt10px query-invoice" ng-click="goRecordsPage()">查 询</button>
+</article>

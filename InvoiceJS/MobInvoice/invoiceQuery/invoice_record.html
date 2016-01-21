@@ -1,0 +1,40 @@
+<header class="page-head" ng-show="invoiceQuery.isWap">
+    <label class="return-btn"><a href="http://wap.10010.com/t/siteMap.htm?menuId=pay" class="arrow-l"></a></label>
+    <p class="page-title">发票邮寄记录查询</p>
+</header>
+
+<article ng-class="{'fixed':true,'time-select':invoiceQuery.isWap,'time-select-app':!invoiceQuery.isWap}">
+    <ul class="tmie-list fixed">
+        <li ng-class="{'current':invoiceQuery.targetMonth.month==month.month}" ng-click="queryMonth(month)"
+            ng-repeat="month in invoiceQuery.queryMonths">
+            <span>{{month.showMonth}}月</span>{{month.year}}
+        </li>
+    </ul>
+</article>
+
+<article ng-class="{'mt113px':invoiceQuery.isWap,'mt68px':!invoiceQuery.isWap}">
+    <section class="record-list" ng-repeat="record in invoiceQuery.invoiceList">
+        <p>订单时间：{{record.orderTime}}</p>
+        <p>发票金额：<b class="price">{{record.invoiceTotalMoney}}元</b></p>
+        <p>邮寄费用：<b class="price">{{record.showPayMont}}</b></p>
+        <p>订单状态：{{record.showOrderdesc}}</p>
+    </section>
+
+    <section class="record-list" ng-show="invoiceQuery.invoiceList.length <= 0">
+        <p>本月无发票邮寄记录</p>
+    </section>
+
+    <!--section class="record-list">
+        <p>订单时间：2015-03-01 14:22:13</p>
+        <p>发票金额：<b class="price">500.00元</b></p>
+        <p>邮寄费用：<b class="price">4200积分</b></p>
+        <p>订单状态：已邮寄</p>
+    </section>
+
+    <section class="record-list">
+        <p>订单时间：2015-03-01 14:22:13</p>
+        <p>发票金额：<b class="price">500.00元</b></p>
+        <p>邮寄费用：<b class="price">0.00元</b></p>
+        <p>订单状态：自取已下发</p>
+    </section-->
+</article>

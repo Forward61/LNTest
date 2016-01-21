@@ -1,0 +1,80 @@
+<header class="page-head" ng-show="invoice.isWap">
+    <label class="return-btn"><a href="javascript:void(0)" ng-click="goBack()" class="arrow-l"></a></label>
+    <p class="page-title">发票列表</p>
+</header>
+<article ng-class="{'mt10px':!invoice.isWap,'mt55px':invoice.isWap}">
+</article>
+<article class="invoice-list fixed" ng-show="invoice.monthshow">
+    <section class="list-head month">
+        <em ng-class="{'selected-icon':true,'choose-icon':invoice.monthInvoice.length==invoice.month_invoice.length,
+        'uncheck-icon':invoice.monthInvoice.length!=invoice.month_invoice.length}" ng-click="chooseMonthAll()"></em>
+        <label class="">月结发票</label>
+        <i class="arrow-r"></i>
+    </section>
+    <ul class="list-body fixed">
+        <li ng-repeat="monthRecord in invoice.month_invoice" ng-click="chooseMonth(monthRecord)">
+            <em ng-class="{'selected-icon':true,'choose-icon':monthRecord.choosen,'uncheck-icon':!monthRecord.choosen}"></em>
+            <label class="left">{{monthRecord.showTime}}</label>
+            <label class="right mr30px">￥{{monthRecord.showMoney}}</label>
+        </li>
+        <li  ng-show="invoice.month_invoice.length<=0">无记录</li>
+    </ul>
+</article>
+
+<article class="invoice-list fixed" ng-show="invoice.payshow">
+    <section class="list-head pay">
+        <em ng-class="{'selected-icon':true,'choose-icon':invoice.payInvoice.length==invoice.pay_invoice.length,
+        'uncheck-icon':invoice.payInvoice.length!=invoice.pay_invoice.length}" ng-click="choosePayAll()"></em>
+        <label class="">实缴发票</label>
+        <i class="arrow-r"></i>
+    </section>
+    <ul class="list-body fixed">
+        <li ng-repeat="payRecord in invoice.pay_invoice" ng-click="choosePay(payRecord)">
+            <em ng-class="{'selected-icon':true,'choose-icon':payRecord.choosen,'uncheck-icon':!payRecord.choosen}"></em>
+            <label class="left">{{payRecord.recvTime}}</label>
+            <label class="right mr30px">￥{{payRecord.showMoney}}</label>
+        </li>
+        <li  ng-show="invoice.pay_invoice.length<=0">无记录</li>
+    </ul>
+</article>
+
+<article class="invoice-list fixed" ng-class="{'mb60px':invoiceErrorMsg==''||invoiceErrorMsg==undefined||invoiceErrorMsg==null}">
+    <section class="list-head card">
+        <em ng-class="{'selected-icon':true,'choose-icon':invoice.cardList.length==invoice.card_invoice.length,
+        'uncheck-icon':invoice.cardList.length!=invoice.card_invoice.length}" ng-click="chooseCardAll()"></em>
+        <label class="">购卡/直充发票</label>
+        <i class="arrow-r"></i>
+    </section>
+    <ul class="list-body fixed">
+        <li ng-repeat="cardRecord in invoice.card_invoice" ng-click="chooseCard(cardRecord)">
+            <em ng-class="{'selected-icon':true,'choose-icon':cardRecord.choosen,'uncheck-icon':!cardRecord.choosen}"></em>
+            <label class="left">{{cardRecord.orderTime}}</label>
+            <label class="right mr30px">￥{{cardRecord.showMoney}}</label>
+        </li>
+        <li ng-show="invoice.card_invoice.length<=0">无记录</li>
+        <li class="invoice-name" ng-show="invoice.card_invoice.length>0">
+            <b>*</b>发票抬头：<input type="text" class="" maxlength="50" ng-model="invoice.invoiceHeader" placeholder="请输入发票抬头"/>
+        </li>
+        <!--li class="invoice-name" ng-show="!invoice.isPost">
+            <b>*</b>证件类型：
+            <select class="select-style mb5px" ng-model="invoice.invoiceTypeCode">
+                <option value="">证件类型</option>
+                <option value="{{invoiceCert.certid}}" ng-selected="{{invoiceCert.certid==invoice.invoiceTypeCode}}"
+                        ng-repeat="invoiceCert in invoice.invoiceSelectOption">{{invoiceCert.certname}}</option>
+            </select>
+        </li>
+        <li class="invoice-name" ng-show="!invoice.isPost">
+            <b>*</b>证件号码：<input type="text" class="" ng-model="invoice.certificateNum" maxlength="18"/>
+        </li-->
+    </ul>
+</article>
+<article class="invoice-list fixed mb60px" ng-show="invoiceErrorMsg!=''&&invoiceErrorMsg!=undefined&&invoiceErrorMsg!=null">
+    <div class="error">{{invoiceErrorMsg}}</div>
+</article>
+<article class="submit-area">
+  <div class="left amount-area">
+    <p ng-show="invoice.month_invoice.length>0||invoice.pay_invoice.length>0">发票可打额度：<span class="">{{invoice.invoice_rest}}元</span></p>
+    <p ng-show="invoice.month_invoice.length>0||invoice.pay_invoice.length>0">已选金额：<span class="">{{invoice.choosenMoney}}元</span></p>
+  </div>
+  <button class="left sub-selected" ng-click="goPayInfo()">提交</button>
+</article>

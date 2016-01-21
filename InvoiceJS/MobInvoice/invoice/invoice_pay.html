@@ -1,0 +1,40 @@
+<header class="page-head" ng-show="invoice.isWap">
+    <label class="return-btn"><a href="javascript:void(0)" ng-click="goBack()" class="arrow-l"></a></label>
+    <p class="page-title">支付信息</p>
+</header>
+<article ng-class="{'mt10px':!invoice.isWap,'mt55px':invoice.isWap}">
+</article>
+<article class="invoice-list fixed go-receipt" ng-click="goChoosePostInfo()">
+    <section class="list-head">
+        <label class="">收件信息</label>
+        <div class="pb10px" ng-show="invoice.postInfo.postname.length >0">
+            <p class="">{{invoice.postInfo.postname}}&nbsp;{{invoice.postInfo.postphone}}</p>
+            <!--p class="">身份证：123456789012345678</p-->
+            <p class="">{{invoice.postInfo.adressAreaInfo}}&nbsp;{{invoice.postInfo.postaddr}}</p>
+        </div>
+        <em class="arrow-r"></em>
+    </section>
+</article>
+
+<article ng-class="{'invoice-list':true,'fixed':true,'go-payment':invoice.postInfo.postname.length >0,
+'not-choose':invoice.postInfo.postname==undefined || invoice.postInfo.postname==null || invoice.postInfo.postname.length <= 0}"
+         ng-click="goChoosePayInfo()">
+    <section class="list-head">
+        <label class="">支付方式</label>
+        <div class="pb10px" ng-show="invoice.paytype.payment_method.length>0">
+            <p>{{invoice.paytype.desc[0]}}<b class='cRed'>{{invoice.paytype.desc[1]}}</b>
+                <span ng-show="payment.desc.length>2">,{{invoice.paytype.desc[2]}}<b class='cRed'>{{invoice.paytype.desc[3]}}</b></span>
+            </p>
+        </div>
+        <em class="arrow-r"></em>
+    </section>
+</article>
+<article class="invoice-list fixed" ng-show="invoiceErrorMsg!=''&&invoiceErrorMsg!=undefined&&invoiceErrorMsg!=null">
+    <div class="error">{{invoiceErrorMsg}}</div>
+</article>
+<article class="plr10px mt30px">
+    <button ng-class="{'button-style':true,'width100':true,
+    'btn-efefef':invoice.paytype.payment_method==undefined||invoice.paytype.payment_method.length<=0||invoice.postInfo.postname.length<=0,
+    'btn-f60':invoice.paytype.payment_method.length>0&&invoice.postInfo.postname.length>0}"
+          ng-click="invoiceSubmit()">提交</button>
+</article>

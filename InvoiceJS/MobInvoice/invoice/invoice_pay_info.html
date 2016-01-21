@@ -1,0 +1,18 @@
+<header class="page-head" ng-show="invoice.isWap">
+    <label class="return-btn"><a href="javascript:void(0)" ng-click="goBack()" class="arrow-l"></a></label>
+    <p class="page-title">支付方式</p>
+</header>
+<article ng-class="{'mt10px':!invoice.isWap,'mt55px':invoice.isWap}">
+</article>
+    <article class="invoice-list fixed choose-payment" ng-repeat="payment in invoice.payment" ng-click="choosePayType(payment)">
+        <section class="list-head">
+            <label class="">{{payment.title}}</label>
+            <div class="pb10px">
+                <p>{{payment.desc[0]}}<b class='cRed'>{{payment.desc[1]}}</b>
+                    <span ng-show="payment.desc.length>2">,{{payment.desc[2]}}<b class='cRed'>{{payment.desc[3]}}</b></span>
+                </p>
+            </div>
+            <em class="arrow-r"></em>
+        </section>
+    </article>
+

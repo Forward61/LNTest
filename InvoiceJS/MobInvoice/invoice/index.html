@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="viewport" content="initial-scale=1.0,user-scalable=no,maximum-scale=1,width=device-width"/>
+    <meta name="format-detection" content="telephone=no">
+    <script language="javascript" type="text/javascript" src="../js/staticconfig.js"></script>
+
+    <link type="text/css" rel="stylesheet" href="cdn_location/css/global.css?version=cdn_version"/>
+    <link type="text/css" rel="stylesheet" href="cdn_location/invoice/css/invoice.css?version=cdn_version"/>
+</head>
+<body>
+
+<div ng-view></div>
+<div class="thickdiv" style="display:none;"></div>
+<div class="loadingdiv" style="display:none;"></div>
+<!--div class="thickdiv" style="display:none;"></div-->
+<script>
+    var version = "cdn_version";
+</script>
+<script language="javascript" type="text/javascript" src="https://uac.10010.com/cust/js/component/areadata.js"></script>
+
+<script language="javascript" type="text/javascript" src="cdn_location/bower_components/requirejs/require.js?version=cdn_version"></script>
+<script language="javascript" type="text/javascript" src="cdn_location/js/require-common.js?version=cdn_version"></script>
+<script language="javascript" type="text/javascript" src="cdn_location/invoice/js/main.js?version=cdn_version"></script>
+<script language="javascript" type="text/javascript" src="cdn_location/js/dataAnalyse.js?version=cdn_version"></script>
+
+<script language="javascript" type="text/javascript" src="http://image.shop.10010.com/upay/biz/js/payfee/googlemobile.js?version=cdn_version"></script>
+</body>
+</html>
+<script>
+    function clientDirectorCallBack() {
+        if (document.location.href.indexOf("#/queryDetail") > 0) {
+            return;
+        }
+        if (undefined != getCookie("MUT_V") && getCookie("MUT_V").split("@")[0] == "iphone_c") {
+            return "clientAction={\"type\":\"close\",\"msg\":\"\",\"url\":\"\"}";
+        }
+        return "{\"type\":\"close\",\"msg\":\"\",\"url\":\"\"}";
+    }
+</script>
