@@ -65,7 +65,7 @@ define(['angular', 'NpfMobileConfig', 'invoiceself/js/invoice','commonModule','m
                 $scope.invoice.mail_servicetype = "";
                 $scope.invoice.receive_invoicetype = "";
                 $scope.invoice.receive_servicetype = "";
-                $scope.invoice.card_invoice = [] , $scope.invoice.cardList = [] , $scope.invoice.cardMoney = 0;
+                $scope.invoice.card_invoice = [] ,$scope.invoice.charge_invoice=[] ,$scope.invoice.cardList = [],$scope.invoice.chargeList=[] , $scope.invoice.cardMoney = 0;
                 $scope.invoice.month_invoice = [] , $scope.invoice.monthInvoice = [] , $scope.invoice.month_limit = 0 , $scope.invoice.monthMoney = 0;
                 $scope.invoice.pay_invoice = [] , $scope.invoice.payInvoice = [] , $scope.invoice.pay_limit = 0 , $scope.invoice.payMoney = 0;
                 $scope.invoice.choosenMoney = 0 ;
@@ -165,6 +165,39 @@ define(['angular', 'NpfMobileConfig', 'invoiceself/js/invoice','commonModule','m
                         }
                     }
                 }
+                $scope.chooseChargeAll = function(choosenFlag) {
+                    choosenFlag = undefined==choosenFlag ? $scope.invoice.chargeList.length!=$scope.invoice.charge_invoice.length : choosenFlag;
+                    $scope.invoiceErrorMsg = "";
+                    $scope.invoice.chargeList = [];
+                    for(var i=0;i<$scope.invoice.charge_invoice.length;i++) {
+                        $scope.invoice.charge_invoice[i].choosen = choosenFlag;
+                        if(choosenFlag) {
+                            $scope.invoice.chargeList.push($scope.invoice.charge_invoice[i].orderTime);
+                            $scope.invoice.chargeMoney = $scope.invoice.chargeMoney + parseFloat(parseFloat($scope.invoice.charge_invoice[i].showMoney).toFixed(2));
+                        }
+                    }
+                }
+                $scope.chooseCharge = function(chargeRecord) {
+                    $scope.invoiceErrorMsg = "";
+                    chargeRecord.choosen = !chargeRecord.choosen;
+                    $scope.invoice.chargeList = [];
+                    for(var i=0;i<$scope.invoice.charge_invoice.length;i++) {
+                        if($scope.invoice.charge_invoice[i].choosen) {
+                            $scope.invoice.chargeList.push($scope.invoice.charge_invoice[i].orderTime);
+                            $scope.invoice.chargeMoney = $scope.invoice.chargeMoney + parseFloat(parseFloat($scope.invoice.charge_invoice[i].showMoney).toFixed(2));
+                        }
+                    }
+                }
+                $scope.showInvoiceProvince= function(){
+                    /*$scope.bankcharge.broadBandBannersel= true;
+                    $scope.bankcharge.isBroadProvinceShow=true;
+                    $scope.bankcharge.isBroadNumTypeShow=false;
+                    $scope.bankcharge.inputBroadBandShow=false;
+                    $scope.bannerhide=true;
+                    $scope.bankcharge.fixBannersel=false;
+                    $scope.bankcharge.isBroadNumTypeShow=false;*/
+                    $scope.bankcharge.prvoinceNames=AreaUtils.provinces;
+                }
                 /** 区分邮寄与自取及月结非月结的*/
                 $scope.getInvoiceTypes = function(config,type,servicetype) {
                     if(commonUtil.judgeEmpty(config)) return;
@@ -211,6 +244,19 @@ define(['angular', 'NpfMobileConfig', 'invoiceself/js/invoice','commonModule','m
                         $scope.invoice.card_invoice.push(data[i]);
                     }
                 }
+                //填充直充发票记录
+                $scope.fillChargeInvoiceRecord = function(data) {
+                    if(data.length<=0 || $scope.invoice.isPost && ($scope.invoice.mail_servicetype.length <= 0 || $scope.invoice.is4G) || !$scope.invoice.isPost && $scope.invoice.receive_servicetype.length <= 0) {//邮寄,无一卡充/自领取,无一卡充
+                        return;
+                    }
+                    var beforeDate = DateUtil.getLastMonthDate(new Date(), $scope.invoice.month);
+                    for(var i=0;i<data.length;i++) {
+                        data[i].showMoney = parseFloat(data[i]["topayTotalMoney"])/100;
+                        data[i].choosen = false;
+                        if(new Date(beforeDate) > new Date(data[i]["orderTime"]) || data[i].showMoney <= 0) break;
+                        $scope.invoice.charge_invoice.push(data[i]);
+                    }
+                }
                 $scope.fillPayInvoiceRecord = function(data) {
                     var records = data.fee_rec_info;
                     if(records.length<=0 || $scope.invoice.isPost && $scope.invoice.mail_invoicetype.indexOf("0") < 0 || !$scope.invoice.isPost && $scope.invoice.receive_invoicetype.indexOf("0") < 0) {//邮寄,无月结/自领取,无月结
@@ -241,6 +287,34 @@ define(['angular', 'NpfMobileConfig', 'invoiceself/js/invoice','commonModule','m
                         $scope.invoice.month_invoice.push(records[i]);
                     }
                     $scope.invoice.month_limit = data.total_print_fee/100;
+                }
+                $scope.getInvCardorChargeInfo=function(){
+                    var service = $scope.invoice.receive_servicetype;
+                    //$("#unicardServicetype").val(service);
+                    var serviceArr=service.split(",");
+                    for(var i=0;i<serviceArr.length;i++){
+                        if((serviceArr[i])==""||serviceArr[i]==null) continue;
+                        $scope.getInfo(serviceArr[i]);
+                    }
+                }
+                $scope.getInfo =function(type){
+
+                    var uri ="GetBuyCardInvoice";
+                    $http({
+                        method: 'post',
+                        url:NpfMobileConfig.serviceInvoiceURL + "mobObtainInvoice/" + uri,
+                        params: {'commonBean.channelType': NpfMobileConfig.CHANNEL_TYPE,
+                            'service':type}
+                    })
+                        .success(function(data, status, headers, config){
+                            if("08"==type){
+                                $scope.fillCardInvoiceRecord(data);
+                            }else{
+                                $scope.fillChargeInvoiceRecord(data);
+                            }
+                        })
+                        .error(function(data, status, headers, config){
+                        })
                 }
                 $scope.getInvoiceInfo = function(type) {
                     var uris = {"month":"obtainMonthInvoite","pay":"obtainPayfeeInvoice","card":"GetBuyCardInvoice"};
@@ -285,7 +359,7 @@ define(['angular', 'NpfMobileConfig', 'invoiceself/js/invoice','commonModule','m
                             if((($scope.invoice.mail_servicetype.indexOf("06")>=0 || $scope.invoice.mail_servicetype.indexOf("07")>=0 ||
                                 $scope.invoice.mail_servicetype.indexOf("08")>=0) && !$scope.invoice.is4G) || $scope.invoice.receive_servicetype.indexOf("06")>=0 ||
                                 $scope.invoice.receive_servicetype.indexOf("07")>=0 || $scope.invoice.receive_servicetype.indexOf("08")>=0) {//获取一卡充类型发票
-                                $scope.getInvoiceInfo("card");
+                                $scope.getInvCardorChargeInfo("card");
                                 initUpCls = commonUtil.judgeEmpty(initUpCls) ? "card" : initUpCls;
                             }
                             if(initUpCls != "") {

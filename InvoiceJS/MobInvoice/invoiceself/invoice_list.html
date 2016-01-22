@@ -40,7 +40,7 @@
     <section class="list-head card">
         <em ng-class="{'selected-icon':true,'choose-icon':invoice.cardList.length==invoice.card_invoice.length,
         'uncheck-icon':invoice.cardList.length!=invoice.card_invoice.length}" ng-click="chooseCardAll()"></em>
-        <label class="">购卡/直充发票</label>
+        <label class="">购卡发票</label>
         <i class="arrow-r"></i>
     </section>
     <ul class="list-body fixed">
@@ -49,21 +49,27 @@
             <label class="left">{{cardRecord.orderTime}}</label>
             <label class="right mr30px">￥{{cardRecord.showMoney}}</label>
         </li>
+        <li  ng-show="invoice.card_invoice.length>=0" ng-click="showInvoiceProvince()">    发票所属地：   </li>
         <li  ng-show="invoice.card_invoice.length<=0">无记录</li>
-        <li class="invoice-name"   ng-show="invoice.card_invoice.length>0">
-            <b>*</b>发票抬头：<input type="text" class="" maxlength="50" ng-model="invoice.invoiceHeader" placeholder="请输入发票抬头"/>
+
+    </ul>
+</article>
+<article class="invoice-list fixed" ng-class="{'mb60px':invoiceErrorMsg==''||invoiceErrorMsg==undefined||invoiceErrorMsg==null}">
+    <section class="list-head charge">
+        <em ng-class="{'selected-icon':true,'choose-icon':invoice.chargeList.length==invoice.charge_invoice.length,
+        'uncheck-icon':invoice.charge_invoice.length!=invoice.card_invoice.length}" ng-click="chooseChargeAll()"></em>
+        <label class="">直充发票</label>
+        <i class="arrow-r"></i>
+    </section>
+    <ul class="list-body fixed">
+        <li ng-repeat="chargeRecord in invoice.charge_invoice" ng-click="chooseCharge(chargeRecord)">
+            <em ng-class="{'selected-icon':true,'choose-icon':chargeRecord.choosen,'uncheck-icon':!chargeRecord.choosen}"></em>
+            <label class="left">{{chargeRecord.orderTime}}</label>
+            <label class="right mr30px">￥{{chargeRecord.showMoney}}</label>
         </li>
-        <li class="invoice-name"  ng-show="invoice.card_invoice.length>0">
-            <b>*</b>证件类型：
-            <select class="select-style mb5px" ng-model="invoice.invoiceTypeCode">
-                <option value="">证件类型</option>
-                <option value="{{invoiceCert.certid}}" ng-selected="{{invoiceCert.certid==invoice.invoiceTypeCode}}"
-                        ng-repeat="invoiceCert in invoice.invoiceSelectOption">{{invoiceCert.certname}}</option>
-            </select>
-        </li>
-        <li class="invoice-name"  ng-show="invoice.card_invoice.length>0">
-            <b>*</b>证件号码：<input type="text" class="" ng-model="invoice.certificateNum" maxlength="18"/>
-        </li>
+        <li  ng-show="invoice.charge_invoice.length>=0">    发票所属地：{{}}   </li>
+        <li  ng-show="invoice.charge_invoice.length<=0">无记录</li>
+
     </ul>
 </article>
 <article class="invoice-list fixed mb60px" ng-show="invoiceErrorMsg!=''&&invoiceErrorMsg!=undefined&&invoiceErrorMsg!=null">
