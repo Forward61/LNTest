@@ -36,7 +36,7 @@
     </ul>
 </article>
 
-<article class="invoice-list fixed" ng-class="{'mb60px':invoiceErrorMsg==''||invoiceErrorMsg==undefined||invoiceErrorMsg==null}">
+<article class="invoice-list fixed" ng-class="{'mb60px':invoiceErrorMsg==''||invoiceErrorMsg==undefined||invoiceErrorMsg==null}" ng-show="chooseCityHidden">
     <section class="list-head card">
         <em ng-class="{'selected-icon':true,'choose-icon':invoice.cardList.length==invoice.card_invoice.length,
         'uncheck-icon':invoice.cardList.length!=invoice.card_invoice.length}" ng-click="chooseCardAll()"></em>
@@ -49,12 +49,19 @@
             <label class="left">{{cardRecord.orderTime}}</label>
             <label class="right mr30px">￥{{cardRecord.showMoney}}</label>
         </li>
-        <li  ng-show="invoice.card_invoice.length>=0" ng-click="showInvoiceProvince()">    发票所属地：   </li>
+
+         <article ng-click="showInvoiceProvince();" ng-show="true" class="sel-box b-tb-style fixed">
+             <span class="sel-title">发票所属地：</span>
+             <span class="sel-body sel-city right mr30px"><i>{{bankcharge.currentProvName}}  {{bankcharge.currentCityName}}</i></span>
+          </article>
+
+
         <li  ng-show="invoice.card_invoice.length<=0">无记录</li>
 
     </ul>
 </article>
-<article class="invoice-list fixed" ng-class="{'mb60px':invoiceErrorMsg==''||invoiceErrorMsg==undefined||invoiceErrorMsg==null}">
+
+<article class="invoice-list fixed" ng-class="{'mb60px':invoiceErrorMsg==''||invoiceErrorMsg==undefined||invoiceErrorMsg==null}" ng-show="chooseCityHidden">
     <section class="list-head charge">
         <em ng-class="{'selected-icon':true,'choose-icon':invoice.chargeList.length==invoice.charge_invoice.length,
         'uncheck-icon':invoice.charge_invoice.length!=invoice.card_invoice.length}" ng-click="chooseChargeAll()"></em>
@@ -67,7 +74,9 @@
             <label class="left">{{chargeRecord.orderTime}}</label>
             <label class="right mr30px">￥{{chargeRecord.showMoney}}</label>
         </li>
-        <li  ng-show="invoice.charge_invoice.length>=0">    发票所属地：{{}}   </li>
+        <li ng-show="invoice.card_invoice.length>=0">
+            <label class="left">发票所属地：</label>
+            <label class="right mr30px">{{invoice.chargePrvoName}}{{invoice.chargeCityName}}</label>
         <li  ng-show="invoice.charge_invoice.length<=0">无记录</li>
 
     </ul>
@@ -75,10 +84,30 @@
 <article class="invoice-list fixed mb60px" ng-show="invoiceErrorMsg!=''&&invoiceErrorMsg!=undefined&&invoiceErrorMsg!=null">
     <div class="error">{{invoiceErrorMsg}}</div>
 </article>
-<article class="submit-area">
+<article class="submit-area" ng-show="chooseCityHidden">
   <div class="left amount-area">
     <p ng-show="invoice.month_invoice.length>0||invoice.pay_invoice.length>0">发票可打额度：<span class="">{{invoice.invoice_rest}}元</span></p>
     <p ng-show="invoice.month_invoice.length>0||invoice.pay_invoice.length>0">已选金额：<span class="">{{invoice.choosenMoney}}元</span></p>
   </div>
-  <button class="left sub-selected" ng-click="goPayInfo()">提交</button>
+  <button class="left sub-selected" ng-click="goInvoiceHtml()">下一步</button>
+    <!--发票展示 -->
+    <!--<div ng-click="goInvoiceHtml();" ng-repeat="invoinceInfo in bankcharge.invoiceList" ng-show="bankcharge.invoiceNorMonthShow&&bankcharge.bankchargeamount">
+        <dl class="infor-dl"><dt>发票抬头：</dt><dd class="val-one">{{invoinceInfo.INVOICE_HEAD}}</dd></dl>
+        <dl class="infor-dl"><dt>证件类型：</dt><dd class="val-two">{{invoinceInfo.CARD_TYPE_NAME}}</dd></dl>
+        <dl class="infor-dl"><dt>证件号码：</dt><dd class="val-three">{{invoinceInfo.ID_CARDNO}}</dd></dl>
+        <em class="arrow-r"></em>
+    </div>-->
+</article>
+<!-- 省份地市展示  begin-->
+<article ng-class="{'pc-list provinces':bankcharge.iswap,'pc-list-web provinces':!bankcharge.iswap}" ng-show="invoice.isShowProvince">
+    <h6>所在省份</h6>
+    <ul class="list-body">
+        <li ng-click="confirmProv(provNames.code,provNames.name);" ng-repeat="provNames in bankcharge.prvoinceNames">{{provNames.name}}</li>
+    </ul>
+</article>
+<article  ng-class="{'pc-list cities':bankcharge.iswap,'pc-list-web cities':!bankcharge.iswap}"  ng-show="invoice.isShowCity">
+    <h6>所在地区</h6>
+    <ul class="list-body">
+        <li ng-click="confirmCity(cityName.name,cityName.pno,cityName.id);" ng-repeat="cityName in bankcharge.cityNames">{{cityName.name}}</li>
+    </ul>
 </article>

@@ -52,8 +52,12 @@
             <label class="right mr30px">￥{{cardRecord.showMoney}}</label>
         </li>
         <li ng-show="invoice.card_invoice.length<=0">无记录</li>
-        <li class="invoice-name" ng-show="invoice.card_invoice.length>0">
+        <li class="invoice-name" ng-show="invoice.card_invoice.length>0||invoice.card_invoice.length>0">
             <b>*</b>发票抬头：<input type="text" class="" maxlength="50" ng-model="invoice.invoiceHeader" placeholder="请输入发票抬头"/>
+        </li>
+        <li ng-show="invoice.card_invoice.length>=0">
+            <label class="left">发票所属地：</label>
+            <label class="right mr30px">{{invoice.chargePrvoName}}{{invoice.chargeCityName}}</label>
         </li>
         <!--li class="invoice-name" ng-show="!invoice.isPost">
             <b>*</b>证件类型：

@@ -7,6 +7,10 @@ define(['angular', 'NpfMobileConfig', 'ngRoute','areaModule', 'commonModule','me
                         templateUrl: 'invoice_search.html',
                         controller: 'chooseForSearch'
                     })
+                    .when('/invoinceInfo',{
+                        templateUrl: 'invoice_info.html',
+                        controller: 'invoiceController'
+                    })
                     .when('/chooseRecords', {
                         templateUrl: 'invoice_list.html',
                         controller: 'chooseRecords'

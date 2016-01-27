@@ -67,31 +67,7 @@ define(['angular', 'NpfMobileConfig', 'invoiceself/js/invoice','commonModule','a
                                 $scope.invoiceErrorMsg = "尊敬的用户您好，系统繁忙，请稍后再试。";
                             });
                     }
-                    $scope.getCheckParam = function() {
-                        return {'commonBean.channelType': NpfMobileConfig.CHANNEL_TYPE,
-                            'commonBean.payAmount' : $scope.invoice.paytype.cost,
-                            'invoiceBean.is_mailing' : $scope.invoice.isPost ? '1' : '0',
-                            'invoiceBean.need_invoice' : '1',
-                            'postBean.monthInvoice' : commonUtil.arrToStr($scope.invoice.monthInvoice),
-                            'postBean.payInvoice' : commonUtil.arrToStr($scope.invoice.payInvoice),
-                            'postBean.cardList' : commonUtil.arrToStr($scope.invoice.cardList),
-                            'postBean.invoice_total_money' : $scope.invoice.monthMoney+$scope.invoice.payMoney+ $scope.invoice.cardMoney,
-                            'postBean.month_method' : $scope.invoice.month,//选择的月份1个月/3个月/6个月
-                            'postBean.payment' : $scope.invoice.paytype.cost,
-                            'postBean.payment_method' : $scope.invoice.paytype.payment_method,
-                            'postBean.post_to' : $scope.invoice.provinceCode == $scope.invoice.postInfo.postProviceCode ? "0" : "1",
-                            'postBean.province_code' : $scope.invoice.postInfo.postProviceCode,
-                            'postBean.city_code' : $scope.invoice.postInfo.postCityCode,
-                            'postBean.district_code' : $scope.invoice.postInfo.postRegionCode,
-                            'postBean.invoice_head' : $scope.invoice.invoiceHeader,
-                            'postBean.post_code' : $scope.invoice.postInfo.postcode,
-                            'postBean.receiver_addr' : $scope.invoice.postInfo.adressAreaInfo + " " + $scope.invoice.postInfo.postaddr,
-                            'postBean.receiver_name' : $scope.invoice.postInfo.postname,
-                            'postBean.receiver_phone' : $scope.invoice.postInfo.postphone,
-                            'postBean.unicardServicetype' : $scope.invoice.isPost ? $scope.invoice.mail_servicetype : $scope.invoice.receive_servicetype,
-                            'secstate.state' : '3mCBuETgA/YTbuZO79gHFA==^@^0.0.1'
-                        };
-                    }
+
                     $scope.checkInvoice = function() {
                         $(".loadingdiv").show();
                         $http({
