@@ -157,4 +157,10 @@ em.icon03{background-image:url(../../images/icon03.png);}
 .read-btn a{display:inline-block;text-align:center;margin:15px 8px;}
 .read-btn .no{width:35%;background-color:#ffffff;color:#666;line-height:33px;border-radius:3px;border:1px solid #ededed; }
 .read-btn .yes{width:35%;background-color:#f36303;color:#fff;line-height:35px;border-radius:3px;}
-
+.form-control{cursor: not-allowed;background-color: #eee;opacity: 1;},
+.form-control[readonly],
+fieldset[disabled] .form-control {
+    cursor: not-allowed;
+    background-color: #eee;
+    opacity: 1;
+}

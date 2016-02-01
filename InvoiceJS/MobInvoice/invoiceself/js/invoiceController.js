@@ -4,6 +4,7 @@ define(['angular','NpfMobileConfig','invoiceself/js/invoice','invoiceself/js/cho
         function ($scope, $http, $window, $location, NpayInfo,IdCard,commonUtil) {
             document.title = "发票信息";
             $scope.invoiceInfo = NpayInfo;
+            $scope.invoice=NpayInfo;
             $scope.invoiceInfo.uri = "/invoinceInfo";
             $scope.invoiceSelectOption = [
                 {certid: '0', certname: '身份证'},
@@ -65,7 +66,109 @@ define(['angular','NpfMobileConfig','invoiceself/js/invoice','invoiceself/js/cho
                     $scope.invoiceInfo.inputFixShow=false;
                 }
                 $scope.isShowSave=false;
+                $scope.invoiceErrorMsg = "";
+                return true;
                 //$location.path($scope.invoiceInfo.uri);
+            }
+
+            $scope.goPayInfo = function() {
+                $scope.invoiceErrorMsg = "";
+                if($scope.invoice.monthInvoice.length<=0 && $scope.invoice.payInvoice.length<=0 && $scope.invoice.cardList.length<=0&&$scope.invoice.chargeList.length<=0) {
+                    $scope.invoiceErrorMsg = "请选择要打印的发票信息!";
+                    return;
+                }
+                if(!commonUtil.judgeEmpty($scope.invoice.cardList) && !$scope.judgeInvoiceHeard()&&!commonUtil.judgeEmpty($scope.invoice.chargeList)) {
+                    return;
+                }
+                if($scope.invoice.isPost) {
+                    $location.path('/payInfo');
+                }else {
+                    if(!$scope.invoiceJudge()) {
+                        return;
+                    }
+                    $scope.checkInvoice();
+                }
+            }
+
+            $scope.getCheckParam = function() {
+                return {'commonBean.channelType': NpfMobileConfig.CHANNEL_TYPE,
+                    'invoiceBean.is_mailing' : $scope.invoice.isPost ? '1' : '0',
+                    'invoiceBean.need_invoice' : '1',
+                    'invoiceBean.province_code' : $scope.invoice.provinceCode,
+                    'invoiceBean.city_code': $scope.invoice.currentCityName,
+                    'postBean.monthInvoice' : commonUtil.arrToStr($scope.invoice.monthInvoice),
+                    'postBean.payInvoice' : commonUtil.arrToStr($scope.invoice.payInvoice),
+                    'postBean.cardList' : commonUtil.arrToStr($scope.invoice.cardList),
+                    'postBean.chargeList' :commonUtil.arrToStr($scope.invoice.chargeList),
+                    'postBean.invoice_total_money' : $scope.invoice.monthMoney+$scope.invoice.payMoney+ $scope.invoice.cardMoney+ $scope.invoice.chargeMoney,
+                    'commonBean.invoiceTotalMoney' : $scope.invoice.monthMoney+$scope.invoice.payMoney+ $scope.invoice.cardMoney+ $scope.invoice.chargeMoney,
+                    'postBean.month_method' : $scope.invoice.month,//选择的月份1个月/3个月/6个月
+                    'postBean.unicardServicetype' : $scope.invoice.isPost ? $scope.invoice.mail_servicetype : $scope.invoice.receive_servicetype,
+                    'invoiceBean.invoice_head' : $scope.invoice.invoiceHeader,
+                    'invoiceBean.card_type' : $scope.invoice.invoiceTypeCode,
+                    'invoiceBean.id_cardno' : $scope.invoice.certificateNum,
+                    'secstate.state' : '3mCBuETgA/YTbuZO79gHFA==^@^0.0.1'
+                };
+            }
+            $scope.checkInvoice = function() {
+                $(".loadingdiv").show();
+                $http({
+                    method: 'post',
+                    url: NpfMobileConfig.serviceInvoiceURL + "mobObtainInvoice/ObtainInvoiceCheck",
+                    params: $scope.getCheckParam()
+                })
+                    .success(function (data, status, headers, config) {
+                        if (undefined == data.out) {
+                            $(".loadingdiv").hide();
+                            $scope.invoiceErrorMsg = "系统繁忙，请稍候再试！";
+                            return;
+                        }
+                        if ("success" == data.out) {
+                            $scope.subInvoice(data.secstate);
+                        } else {
+                            $(".loadingdiv").hide();
+                            $scope.invoiceErrorMsg = data.out;
+                        }
+                    })
+                    .error(function (data, status, headers, config) {
+                        $(".loadingdiv").hide();
+                        $scope.invoiceErrorMsg = "尊敬的用户您好，系统繁忙，请稍后再试。";
+                    });
+            }
+
+            $scope.subInvoice = function(sec) {
+                $http({
+                    method: 'post',
+                    url: NpfMobileConfig.serviceInvoiceURL + "mobObtainInvoice/InvoiceSubmit.action",
+                    params: {'commonBean.channelType': NpfMobileConfig.CHANNEL_TYPE,'secstate.state': sec}
+                })
+                    .success(function (data, status, headers, config) {
+                        $(".loadingdiv").hide();
+                        if (undefined == data.out) {
+                            $scope.invoiceErrorMsg = "交费系统繁忙，请稍候再试。";
+                            return;
+                        }
+                        if ("success" == data.out) {
+                            window.location.href = data.payResultUrl;
+                        }
+                        else if("nopay" == data.out){
+                            $scope.invoice.orderState = data.orderStatus;
+                            $scope.invoice.payAmount = data.payAmount;
+                            $scope.invoice.orderno = data.orderNo;
+                            $scope.invoice.invoiceTotalMoney= data.invoiceTotalMoney;
+                            $scope.invoice.is_mailing = data.is_mailing;
+                            $scope.invoice.payState = data.payState;
+                            $scope.invoice.payment_method = data.payment_method;
+                            $location.path('/invoiceState');
+                        }
+                        else {
+                            $scope.invoiceErrorMsg = data.out;
+                        }
+                    })
+                    .error(function (data, status, headers, config) {
+                        $(".loadingdiv").hide();
+                        $scope.invoiceErrorMsg = "尊敬的用户您好，系统繁忙，请稍后再试。";
+                    });
             }
 
             $scope.hideInvoice = function() {
@@ -149,77 +252,7 @@ define(['angular','NpfMobileConfig','invoiceself/js/invoice','invoiceself/js/cho
                 $scope.invoiceInfo.headeremove = true;
                 $scope.invoiceInfo.cardremove = true;
             }
-            $scope.goPayInfo = function() {
-                $scope.invoiceErrorMsg = "";
-                if($scope.invoice.monthInvoice.length<=0 && $scope.invoice.payInvoice.length<=0 && $scope.invoice.cardList.length<=0&&$scope.invoice.chargeList.length<=0) {
-                    $scope.invoiceErrorMsg = "请选择要打印的发票信息!";
-                    return;
-                }
-                if(!commonUtil.judgeEmpty($scope.invoice.cardList) && !$scope.judgeInvoiceHeard()&&!commonUtil.judgeEmpty($scope.invoice.chargeList)) {
-                    return;
-                }
-                if($scope.invoice.isPost) {
-                    $location.path('/payInfo');
-                }else {
-                    if(!$scope.invoiceJudge()) {
-                        return;
-                    }
-                    $scope.checkInvoice();
-                }
-            }
-            $scope.checkInvoice = function() {
-                $(".loadingdiv").show();
-                $http({
-                    method: 'post',
-                    url: NpfMobileConfig.serviceInvoiceURL + "mobObtainInvoice/ObtainInvoiceCheck",
-                    params: $scope.getCheckParam()
-                })
-                    .success(function (data, status, headers, config) {
-                        if (undefined == data.out) {
-                            $(".loadingdiv").hide();
-                            $scope.invoiceErrorMsg = "系统繁忙，请稍候再试！";
-                            return;
-                        }
-                        if ("success" == data.out) {
-                            $scope.subInvoice(data.secstate);
-                        } else {
-                            $(".loadingdiv").hide();
-                            $scope.invoiceErrorMsg = data.out;
-                        }
-                    })
-                    .error(function (data, status, headers, config) {
-                        $(".loadingdiv").hide();
-                        $scope.invoiceErrorMsg = "尊敬的用户您好，系统繁忙，请稍后再试。";
-                    });
-            }
-            $scope.getCheckParam = function() {
-                return {'commonBean.channelType': NpfMobileConfig.CHANNEL_TYPE,
-                    'commonBean.payAmount' : $scope.invoice.paytype.cost,
-                    'invoiceBean.is_mailing' : $scope.invoice.isPost ? '1' : '0',
-                    'invoiceBean.need_invoice' : '1',
-                    'invoiceBean.province_code' : $scope.bankcharge.currentProvName,
-                    'invoiceBean.city_code': $scope.bankcharge.currentCityName,
-                    'postBean.monthInvoice' : commonUtil.arrToStr($scope.invoice.monthInvoice),
-                    'postBean.payInvoice' : commonUtil.arrToStr($scope.invoice.payInvoice),
-                    'postBean.cardList' : commonUtil.arrToStr($scope.invoice.cardList),
-                    'postBean.chargeList' : commonUtil.arrToStr($scope.invoice.chargeList),
-                    'postBean.invoice_total_money' : $scope.invoice.monthMoney+$scope.invoice.payMoney+ $scope.invoice.cardMoney,
-                    'postBean.month_method' : $scope.invoice.month,//选择的月份1个月/3个月/6个月
-                    'postBean.payment' : $scope.invoice.paytype.cost,
-                    'postBean.payment_method' : $scope.invoice.paytype.payment_method,
-                    'postBean.post_to' : $scope.invoice.provinceCode == $scope.invoice.postInfo.postProviceCode ? "0" : "1",
-                    'postBean.province_code' : $scope.invoice.postInfo.postProviceCode,
-                    'postBean.city_code' : $scope.invoice.postInfo.postCityCode,
-                    'postBean.district_code' : $scope.invoice.postInfo.postRegionCode,
-                    'postBean.invoice_head' : $scope.invoice.invoiceHeader,
-                    'postBean.post_code' : $scope.invoice.postInfo.postcode,
-                    'postBean.receiver_addr' : $scope.invoice.postInfo.adressAreaInfo + " " + $scope.invoice.postInfo.postaddr,
-                    'postBean.receiver_name' : $scope.invoice.postInfo.postname,
-                    'postBean.receiver_phone' : $scope.invoice.postInfo.postphone,
-                    'postBean.unicardServicetype' : $scope.invoice.isPost ? $scope.invoice.mail_servicetype : $scope.invoice.receive_servicetype,
-                    'secstate.state' : '3mCBuETgA/YTbuZO79gHFA==^@^0.0.1'
-                };
-            }
+
             $scope.noInvoiceInfo = function() {
                 $scope.invoiceInfo.invoiceTypeName = "身份证";
                 $scope.invoiceInfo.invoiceTypeCode = "0";

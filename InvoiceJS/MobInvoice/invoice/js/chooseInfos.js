@@ -310,10 +310,9 @@ define(['angular', 'NpfMobileConfig', 'invoice/js/invoice','commonModule','messa
                     if(AreaUtils.municipality.indexOf(provinceCode)>=0){//直辖市
                         $scope.invoice.chargePrvoName = "";
                     }else{
-                        $scope.invoice.chargePrvoName=AreaUtils.getProvinceName(provinceCode)+"省";
+                        $scope.invoice.chargePrvoName=AreaUtils.getProvinceName(provinceCode);
                     }
-
-                    $scope.invoice.chargeCityName=AreaUtils.getCityName(provinceCode,cityCode)+"市";
+                    $scope.invoice.chargeCityName=AreaUtils.getCityName(provinceCode,cityCode);
                 }
                 /** 获取发票配置并处理展示相关可选 月结/交费/购卡 记录 */
                 $scope.getInvoiceConfig = function(provinceCode) {

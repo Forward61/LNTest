@@ -17,6 +17,23 @@ define(['angular','commonModule','focus','cookieInfo'], function (angular) {
                     while (ws.test(data.charAt(--i)));
                     return data.slice(0, i + 1);
                 },
+                getInvoiceTypeName: function (invoiceCerttype) {
+                    if ("0" == invoiceCerttype) {
+                        return "身份证";
+                    }
+                    else if ("1" == invoiceCerttype) {
+                        return "军官证";
+                    }
+                    else if ("2" == invoiceCerttype) {
+                        return "护照";
+                    }
+                    else if ("3" == invoiceCerttype) {
+                        return "港澳台通行证";
+                    }
+                    else if ("4" == invoiceCerttype) {
+                        return "户口薄";
+                    }
+                },
                 changeTwoDecimal_f : function(x) {
                     var f_x = parseFloat(x);
                     if (isNaN(f_x)) {
