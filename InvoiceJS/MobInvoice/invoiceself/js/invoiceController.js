@@ -5,7 +5,7 @@ define(['angular','NpfMobileConfig','invoiceself/js/invoice','invoiceself/js/cho
             document.title = "发票信息";
             $scope.invoiceInfo = NpayInfo;
             $scope.invoice=NpayInfo;
-            $scope.invoiceInfo.uri = "/invoinceInfo";
+            $scope.invoiceInfo.uri = "/chooseRecords";
             $scope.invoiceSelectOption = [
                 {certid: '0', certname: '身份证'},
                 {certid: '1', certname: '军官证'},
@@ -209,10 +209,14 @@ define(['angular','NpfMobileConfig','invoiceself/js/invoice','invoiceself/js/cho
             $scope.delInvoice=function(){
                //$(".thickdiv").hide();
                 $(".page").show();
-                $scope.invoiceInfo.invoiceList = [];
+                $scope.noInvoiceInfo();
+                $scope.hideInvoice();
+
+                /*$scope.invoiceInfo.invoiceList = [];
                 $scope.hideInvoice();
                 $scope.invoiceInfo.invoiceType="";
 
+                $scope.invoiceInfo.invoiceTypeName = commonUtil.getInvoiceTypeName( $scope.invoiceInfo.invoiceList[0].CARD_TYPE);*/
                 $location.path($scope.invoiceInfo.uri);
                 $("#del-invoice").hide();
             }

@@ -87,6 +87,8 @@ define(['angular', 'NpfMobileConfig', 'invoiceself/js/invoice','commonModule','m
                 $scope.chooseCityHidden=true;
                 $scope.invoice.chargeMoney=0;
                 $scope.isShowSave=true;
+                $scope.invoice.isCardShow=true;
+                $scope.invoice.NotAllowedChoose=false;
                 $(".list-head").click(function() {
                     var _this=$(this),_thisIClass=_this.find('i').attr('class');
                     if (_thisIClass != "arrow-d") {
@@ -159,6 +161,9 @@ define(['angular', 'NpfMobileConfig', 'invoiceself/js/invoice','commonModule','m
                     $scope.invoice.invoice_rest = parseFloat(($scope.invoice.invoice_limit - $scope.invoice.choosenMoney).toFixed(2));
                 }
                 $scope.chooseCardAll = function(choosenFlag) {
+                    if(!$scope.invoice.isCardShow){
+                        return;
+                    }
                     choosenFlag = undefined==choosenFlag ? $scope.invoice.cardList.length!=$scope.invoice.card_invoice.length : choosenFlag;
                     $scope.invoiceErrorMsg = "";
                     $scope.invoice.cardList = [];
@@ -171,6 +176,9 @@ define(['angular', 'NpfMobileConfig', 'invoiceself/js/invoice','commonModule','m
                     }
                 }
                 $scope.chooseCard = function(cardRecord) {
+                    if(!$scope.invoice.isCardShow){
+                        return;
+                    }
                     $scope.invoiceErrorMsg = "";
                     cardRecord.choosen = !cardRecord.choosen;
                     $scope.invoice.cardList = [];
@@ -182,6 +190,9 @@ define(['angular', 'NpfMobileConfig', 'invoiceself/js/invoice','commonModule','m
                     }
                 }
                 $scope.chooseChargeAll = function(choosenFlag) {
+                    if(!$scope.invoice.isCardShow){
+                        return ;
+                    }
                     choosenFlag = undefined==choosenFlag ? $scope.invoice.chargeList.length!=$scope.invoice.charge_invoice.length : choosenFlag;
                     $scope.invoiceErrorMsg = "";
                     $scope.invoice.chargeList = [];
@@ -194,6 +205,9 @@ define(['angular', 'NpfMobileConfig', 'invoiceself/js/invoice','commonModule','m
                     }
                 }
                 $scope.chooseCharge = function(chargeRecord) {
+                    if(!$scope.invoice.isCardShow){
+                        return ;
+                    }
                     $scope.invoiceErrorMsg = "";
                     chargeRecord.choosen = !chargeRecord.choosen;
                     $scope.invoice.chargeList = [];
@@ -279,17 +293,23 @@ define(['angular', 'NpfMobileConfig', 'invoiceself/js/invoice','commonModule','m
                         /*var card = calMoneyChoosen("invoice_card");
                          if(parseFloat(card) > 0) $(".oneself_receive_box,.submitData").show();
                          */
-
-
+                        $scope.invoice.isCardShow=true;
+                        $scope.invoice.NotAllowedChoose=false;
+                        $scope.invoiceErrorMsg="";
                     }
 
                     else{
+
                         $(".noSelfInvoiceTip").empty().text("您选择的省分仅支持月结发票的打印，无需勾选购卡发票，每月月初到本市自有营业厅领取。");
-                        noSelfInvoice=true;
-                        /*$('#cardInvoiceChoose').unbind("click");
-                        $('#cardInvoiceChooseAll').unbind("click");*/
+                        //对直充的代码要删除
                         $scope.invoice.chargeList= $scope.invoice.charge_invoice;
                         $scope.chooseChargeAll();
+
+                        $scope.invoice.cardList=$scope.invoice.card_invoice;
+                        $scope.chooseCardAll();
+                        $scope.invoice.isCardShow=false;
+                        $scope.invoice.NotAllowedChoose=true;
+                        $scope.invoiceErrorMsg="您选择的省分仅支持月结发票的打印，无需勾选购卡发票，每月月初到本市自有营业厅领取。";
                     }
                 }
                 /** 区分邮寄与自取及月结非月结的*/
@@ -331,6 +351,8 @@ define(['angular', 'NpfMobileConfig', 'invoiceself/js/invoice','commonModule','m
                         return;
                     }
                     var beforeDate = DateUtil.getLastMonthDate(new Date(), $scope.invoice.month);
+                    $scope.invoice.card_invoice=[];
+
                     for(var i=0;i<data.length;i++) {
                         data[i].showMoney = parseFloat(data[i]["topayTotalMoney"])/100;
                         data[i].choosen = false;
@@ -433,6 +455,7 @@ define(['angular', 'NpfMobileConfig', 'invoiceself/js/invoice','commonModule','m
                         })
                 }
 
+                //新增，选取地市后读取发票规则  ln
                 $scope.getProInvoiceConfig = function (provinceCode,cityCode) {
                     $http({
                         method: 'post',
