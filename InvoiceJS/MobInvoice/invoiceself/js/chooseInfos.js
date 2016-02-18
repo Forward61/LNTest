@@ -162,9 +162,20 @@ define(['angular', 'NpfMobileConfig', 'invoiceself/js/invoice','commonModule','m
                 }
                 $scope.chooseCardAll = function(choosenFlag) {
                     if(!$scope.invoice.isCardShow){
+                        for(var i=0;i<$scope.invoice.card_invoice.length;i++) {
+                            $scope.invoice.card_invoice[i].choosen = choosenFlag;
+                            if(choosenFlag) {
+                                $scope.invoice.cardList.push($scope.invoice.card_invoice[i].orderTime);
+                                $scope.invoice.cardMoney = $scope.invoice.cardMoney + parseFloat(parseFloat($scope.invoice.card_invoice[i].showMoney).toFixed(2));
+                            }
+                        }
+                        $scope.invoice.cardList=0;
                         return;
                     }
                     choosenFlag = undefined==choosenFlag ? $scope.invoice.cardList.length!=$scope.invoice.card_invoice.length : choosenFlag;
+                    if($scope.invoice.NotAllowedChoose){
+                        choosenFlag=false;
+                    }
                     $scope.invoiceErrorMsg = "";
                     $scope.invoice.cardList = [];
                     for(var i=0;i<$scope.invoice.card_invoice.length;i++) {
@@ -191,9 +202,20 @@ define(['angular', 'NpfMobileConfig', 'invoiceself/js/invoice','commonModule','m
                 }
                 $scope.chooseChargeAll = function(choosenFlag) {
                     if(!$scope.invoice.isCardShow){
+                        for(var i=0;i<$scope.invoice.charge_invoice.length;i++) {
+                            $scope.invoice.charge_invoice[i].choosen = choosenFlag;
+                            if(choosenFlag) {
+                                $scope.invoice.chargeList.push($scope.invoice.charge_invoice[i].orderTime);
+                                $scope.invoice.chargeMoney = $scope.invoice.chargeMoney + parseFloat(parseFloat($scope.invoice.charge_invoice[i].showMoney).toFixed(2));
+                            }
+                        }
+                        $scope.invoice.chargeList= 0;
                         return ;
                     }
                     choosenFlag = undefined==choosenFlag ? $scope.invoice.chargeList.length!=$scope.invoice.charge_invoice.length : choosenFlag;
+                    if($scope.invoice.NotAllowedChoose){
+                        choosenFlag=false;
+                    }
                     $scope.invoiceErrorMsg = "";
                     $scope.invoice.chargeList = [];
                     for(var i=0;i<$scope.invoice.charge_invoice.length;i++) {
@@ -206,6 +228,7 @@ define(['angular', 'NpfMobileConfig', 'invoiceself/js/invoice','commonModule','m
                 }
                 $scope.chooseCharge = function(chargeRecord) {
                     if(!$scope.invoice.isCardShow){
+                        choosenFlag=false;
                         return ;
                     }
                     $scope.invoiceErrorMsg = "";
@@ -282,17 +305,12 @@ define(['angular', 'NpfMobileConfig', 'invoiceself/js/invoice','commonModule','m
                 //自取发票购卡记录省份
                 $scope.isCardInvoice = function(){
                     $scope.invoice.servicetypetemp ="08";
-                    /*if(!commonUtil.judgeEmpty( $scope.invoice.cardinvoicerule[$scope.invoice.servicetypetemp])){
-                        $scope.invoice.invoicetype = $scope.invoice.cardinvoicerule[$scope.invoice.servicetypetemp]=="" ? "1" : $scope.invoice.cardinvoicerule[$scope.invoice.servicetypetemp]["invoice_type"];
-                    }*/
                     $scope.invoice.invoicetype = commonUtil.judgeEmpty($scope.invoice.cardinvoicerule[$scope.invoice.servicetypetemp])? "1" : $scope.invoice.cardinvoicerule[$scope.invoice.servicetypetemp]["invoice_type"];
                     if ($scope.invoice.invoicetype == "0") { // 自取
                         noSelfInvoice=false;
                         $(".noSelfInvoiceTip").empty().text("");
                         $("#invoice_card").find("input").attr("disabled",false);
-                        /*var card = calMoneyChoosen("invoice_card");
-                         if(parseFloat(card) > 0) $(".oneself_receive_box,.submitData").show();
-                         */
+
                         $scope.invoice.isCardShow=true;
                         $scope.invoice.NotAllowedChoose=false;
                         $scope.invoiceErrorMsg="";
@@ -301,14 +319,16 @@ define(['angular', 'NpfMobileConfig', 'invoiceself/js/invoice','commonModule','m
                     else{
 
                         $(".noSelfInvoiceTip").empty().text("您选择的省分仅支持月结发票的打印，无需勾选购卡发票，每月月初到本市自有营业厅领取。");
-                        //对直充的代码要删除
-                        $scope.invoice.chargeList= $scope.invoice.charge_invoice;
-                        $scope.chooseChargeAll();
-
-                        $scope.invoice.cardList=$scope.invoice.card_invoice;
-                        $scope.chooseCardAll();
                         $scope.invoice.isCardShow=false;
                         $scope.invoice.NotAllowedChoose=true;
+                        //对直充的代码要删除
+                        //$scope.invoice.chargeList= $scope.invoice.charge_invoice;
+                        $scope.chooseChargeAll(false);
+
+                        //$scope.invoice.cardList=$scope.invoice.card_invoice;
+                        $scope.chooseCardAll(false);
+
+
                         $scope.invoiceErrorMsg="您选择的省分仅支持月结发票的打印，无需勾选购卡发票，每月月初到本市自有营业厅领取。";
                     }
                 }
@@ -466,19 +486,6 @@ define(['angular', 'NpfMobileConfig', 'invoiceself/js/invoice','commonModule','m
                     })
                         .success(function (data, status, headers, config) {
                             $scope.invoice.cardinvoicerule = data;
-                            /*$scope.bankcharge.provinceCodePrev = $scope.bankcharge.fixBannersel ? $scope.bankcharge.provinceCodePrev : provinceCode;
-                            $scope.bankcharge.cityCodePrev=$scope.bankcharge.fixBannersel?$scope.bankcharge.cityCodePrev:cityCode;
-                            $scope.bankcharge.isOnlineProvince = data.isOnline;
-                            if($scope.bankcharge.fixBannersel || $scope.bankcharge.broadBandBannersel) {
-                                $scope.bankcharge.postFixConfig = data[NpfMobileConfig.BUSINESS_TYPE_PAYFIX];
-                                $scope.bankcharge.invoiceFixConfig = data[NpfMobileConfig.BUSINESS_TYPE_FIX];
-                                $scope.getCustomInvoice(data[!$scope.bankcharge.bankchargeamount?NpfMobileConfig.BUSINESS_TYPE_PAYFIX:NpfMobileConfig.BUSINESS_TYPE_FIX]);
-                            }
-                            else{
-                                $scope.bankcharge.invoiceConfig = data[NpfMobileConfig.BUSINESS_TYPE_MOBILE];
-                                $scope.bankcharge.postConfig = data[NpfMobileConfig.BUSINESS_TYPE_PAYMOBILE];
-                                $scope.getCustomInvoice(data[!$scope.bankcharge.bankchargeamount?NpfMobileConfig.BUSINESS_TYPE_PAYMOBILE:NpfMobileConfig.BUSINESS_TYPE_MOBILE]);
-                            }*/
                             $scope.isCardInvoice();
                         })
                         .error(function (data, status, headers, config) {

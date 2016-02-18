@@ -233,12 +233,12 @@ define(['angular', 'NpfMobileConfig', 'invoice/js/invoice','commonModule','messa
                     }
                 }
                 $scope.fillCardInvoiceRecord = function(data) {
-                    $scope.invoice.card_invoice = [];
-                    
+
                     if(data.length<=0 || $scope.invoice.isPost && ($scope.invoice.mail_servicetype.length <= 0 || $scope.invoice.is4G) || !$scope.invoice.isPost && $scope.invoice.receive_servicetype.length <= 0) {//邮寄,无一卡充/自取,无一卡充
                         return;
                     }
                     var beforeDate = DateUtil.getLastMonthDate(new Date(), $scope.invoice.month);
+                    $scope.invoice.card_invoice = [];
                     for(var i=0;i<data.length;i++) {
                         data[i].showMoney = parseFloat(data[i]["topayTotalMoney"])/100;
                         data[i].choosen = false;
