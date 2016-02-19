@@ -102,7 +102,8 @@ define(['angular','NpfMobileConfig'], function (angular,NpfMobileConfig) {
                 getOfferate : false,
                 cardMoney:"0",
                 chargeMoney:"0",
-                getCustomInvoice:""
+                getCustomInvoice:"",
+                citys:""
             }
         })
         .controller('addressController', ['$scope', '$window', '$http', '$location', 'NpayInfo', '$anchorScroll',

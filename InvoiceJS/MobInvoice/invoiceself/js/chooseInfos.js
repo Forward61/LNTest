@@ -56,16 +56,6 @@ define(['angular', 'NpfMobileConfig', 'invoiceself/js/invoice','commonModule','m
 //                    $scope.servieType = "confirm";
 //                    MessagetipsUtils.fillMessagetips($scope.servieType);
                 }])
-        .controller('invoinceInfo', ['$scope', '$http','$location', 'NpayInfo','MessagetipsUtils','DateUtil','commonUtil','AreaUtils','IdCard',
-            function ($scope,$http,$location,NpayInfo,MessagetipsUtils,DateUtil,commonUtil,AreaUtils,IdCard) {
-                document.title = "发票信息";
-                $scope.bankcharge.invoiceNorMonthShow=true;
-                $scope.bankcharge.bankchargeamount=true;
-                $scope.invoiceInfo="";
-                $scope.invoiceInfo.invoiceTypeName="test";
-                $scope.invoiceErrorMsg="错误";
-                $scope.isShowSave=true;
-            }])
         .controller('chooseRecords', ['$scope', '$http','$location', 'NpayInfo','MessagetipsUtils','DateUtil','commonUtil','AreaUtils','IdCard',
             function ($scope,$http,$location,NpayInfo,MessagetipsUtils,DateUtil,commonUtil,AreaUtils,IdCard) {
                 document.title = "发票列表";
@@ -127,7 +117,7 @@ define(['angular', 'NpfMobileConfig', 'invoiceself/js/invoice','commonModule','m
                     }
                     if(monthRecord.choosen&&($scope.invoice.oneallow.indexOf($scope.invoice.provinceCode) >= 0)&&!$scope.invoice.is4G) $scope.choosePayAll(false);
                     $scope.invoice.choosenMoney = parseFloat(($scope.invoice.monthMoney + $scope.invoice.payMoney).toFixed(2));
-                    $scope.invoice.showProvince = parseFloat(($scope.invoice.invoice_limit - $scope.invoice.choosenMoney).toFixed(2));
+                    $scope.invoice.invoice_rest = parseFloat(($scope.invoice.invoice_limit - $scope.invoice.choosenMoney).toFixed(2));
                 }
                 $scope.choosePayAll = function(choosenFlag) {
                     choosenFlag = undefined==choosenFlag ? $scope.invoice.payInvoice.length!=$scope.invoice.pay_invoice.length : choosenFlag;
@@ -201,17 +191,6 @@ define(['angular', 'NpfMobileConfig', 'invoiceself/js/invoice','commonModule','m
                     }
                 }
                 $scope.chooseChargeAll = function(choosenFlag) {
-                    if(!$scope.invoice.isCardShow){
-                        for(var i=0;i<$scope.invoice.charge_invoice.length;i++) {
-                            $scope.invoice.charge_invoice[i].choosen = choosenFlag;
-                            if(choosenFlag) {
-                                $scope.invoice.chargeList.push($scope.invoice.charge_invoice[i].orderTime);
-                                $scope.invoice.chargeMoney = $scope.invoice.chargeMoney + parseFloat(parseFloat($scope.invoice.charge_invoice[i].showMoney).toFixed(2));
-                            }
-                        }
-                        $scope.invoice.chargeList= 0;
-                        return ;
-                    }
                     choosenFlag = undefined==choosenFlag ? $scope.invoice.chargeList.length!=$scope.invoice.charge_invoice.length : choosenFlag;
                     if($scope.invoice.NotAllowedChoose){
                         choosenFlag=false;
@@ -240,6 +219,7 @@ define(['angular', 'NpfMobileConfig', 'invoiceself/js/invoice','commonModule','m
                             $scope.invoice.chargeMoney = $scope.invoice.chargeMoney + parseFloat(parseFloat($scope.invoice.charge_invoice[i].showMoney).toFixed(2));
                         }
                     }
+
                 }
                 //跳转发票/邮寄页面
                 $scope.goInvoiceHtml = function () {
@@ -247,8 +227,7 @@ define(['angular', 'NpfMobileConfig', 'invoiceself/js/invoice','commonModule','m
                         $location.path('/invoinceInfo');
                     }
                     else{
-                        1+1;
-                        $location.path('/invoinceInfo');
+                        $scope.invoiceErrorMsg="请重新选择要打印发票";
                     }
                 }
                 $scope.showInvoiceProvince= function(){
@@ -489,11 +468,6 @@ define(['angular', 'NpfMobileConfig', 'invoiceself/js/invoice','commonModule','m
                             $scope.isCardInvoice();
                         })
                         .error(function (data, status, headers, config) {
-                            $scope.bankcharge.invoiceNorList = false;
-                            $scope.bankcharge.invoiceinfohide = false;
-                            $scope.bankcharge.invoiceNorMonthShow = false;
-                            $scope.bankcharge.invoiceMonthShow = false;
-                            $scope.bankcharge.invoiceType = "";
                         });
                 }
                 /** 获取发票配置并处理展示相关可选 月结/交费/购卡 记录 */
