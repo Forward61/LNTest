@@ -50,7 +50,7 @@
             <label class="right mr30px">￥{{cardRecord.showMoney}}</label>
         </li>
 
-         <article ng-click="showInvoiceProvince();" ng-show="true" class="sel-box b-tb-style fixed">
+         <article ng-click="showInvoiceProvince();"  class="sel-box b-tb-style fixed" ng-show="invoice.card_invoice.length>0">
              <span class="sel-title">发票所属地：</span>
              <span class="sel-body sel-city right mr30px"><i>{{invoice.currentProvName}}  {{invoice.currentCityName}}</i></span>
           </article>
@@ -62,21 +62,22 @@
 </article>
 
 <article class="invoice-list fixed" ng-class="{'mb60px':invoiceErrorMsg==''||invoiceErrorMsg==undefined||invoiceErrorMsg==null}" ng-show="chooseCityHidden">
-    <section ng-class="{'form-control':invoice.NotAllowedChoose}" class="list-head charge">
+    <section  class="list-head charge">
         <em ng-class="{'selected-icon':true,'choose-icon':invoice.chargeList.length==invoice.charge_invoice.length,
         'uncheck-icon':invoice.charge_invoice.length!=invoice.card_invoice.length}" ng-click="chooseChargeAll()"></em>
         <label class="">直充发票</label>
         <i class="arrow-r"></i>
     </section>
     <ul class="list-body fixed">
-        <li ng-class="{'form-control':invoice.NotAllowedChoose}" ng-repeat="chargeRecord in invoice.charge_invoice" ng-click="chooseCharge(chargeRecord)">
+        <li  ng-repeat="chargeRecord in invoice.charge_invoice" ng-click="chooseCharge(chargeRecord)">
             <em ng-class="{'selected-icon':true,'choose-icon':chargeRecord.choosen,'uncheck-icon':!chargeRecord.choosen}"></em>
             <label class="left">{{chargeRecord.orderTime}}</label>
             <label class="right mr30px">￥{{chargeRecord.showMoney}}</label>
         </li>
-        <li ng-show="invoice.card_invoice.length>=0">
+        <li ng-show="invoice.charge_invoice.length>0">
             <label class="left">发票所属地：</label>
             <label class="right mr30px">{{invoice.chargePrvoName}}{{invoice.chargeCityName}}</label>
+        </li>
         <li  ng-show="invoice.charge_invoice.length<=0">无记录</li>
 
     </ul>

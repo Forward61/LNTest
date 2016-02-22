@@ -77,7 +77,7 @@ define(['angular','NpfMobileConfig','invoiceself/js/invoice','invoiceself/js/cho
                     $scope.invoiceErrorMsg = "请选择要打印的发票信息!";
                     return;
                 }
-                if(!commonUtil.judgeEmpty($scope.invoice.cardList) && !$scope.judgeInvoiceHeard()&&!commonUtil.judgeEmpty($scope.invoice.chargeList)) {
+                if(!commonUtil.judgeEmpty($scope.invoice.cardList) &&!commonUtil.judgeEmpty($scope.invoice.chargeList)) {
                     return;
                 }
                 if($scope.invoice.isPost) {
