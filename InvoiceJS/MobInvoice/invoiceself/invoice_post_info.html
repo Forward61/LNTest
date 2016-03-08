@@ -1,0 +1,30 @@
+<header class="page-head" ng-show="invoice.isWap">
+    <label class="return-btn"><a href="javascript:void(0)" ng-click="goBack()" class="arrow-l"></a></label>
+    <p class="page-title">收件信息</p>
+</header>
+<article ng-class="{'mt10px':!invoice.isWap,'mt55px':invoice.isWap}">
+</article>
+<article class="receipt-list fixed" ng-repeat="postInfo in invoice.postInvoiceList">
+    <section class="receipt-list-head">
+        <label class="left ml10px edit-ri" ng-click="editAddr(postInfo)">编辑</label>
+        <label class="right mr10px del-ri" ng-click="delAddr(postInfo)">删除</label>
+    </section>
+    <div class="receipt-list-body" ng-click="chooseAddr(postInfo)">
+        <p class="fb">{{postInfo.postname}}&nbsp;{{postInfo.postphone}}</p>
+        <!--p class="">身份证：123456789012345678</p-->
+        <p class="">{{postInfo.adressAreaInfo}}&nbsp;{{postInfo.postaddr}}</p>
+        <em class="choose-receipt" ng-show="invoice.postInfo.postId == postInfo.postId"></em>
+    </div>
+</article>
+
+<article class="plr10px mt30px" ng-click="addDddr()">
+    <button class="add-receipt width100">+ 新建收货地址</button>
+</article>
+
+<div class="del-layer">
+    <p class="del-layer-tips">您确定要删除该条信息！</p>
+    <div class="del-layer-btn fixed">
+        <a href="javascript:void(0)" class="yes"/>确定</a>
+        <a href="javascript:void(0)" class="no"/>取消</a>
+    </div>
+</div>

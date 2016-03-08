@@ -1,0 +1,49 @@
+<header class="page-head" ng-show="invoice.isWap">
+    <label class="return-btn"><a href="javascript:void(0)" ng-click="goBack()" class="arrow-l"></a></label>
+    <p class="page-title">收件信息</p>
+</header>
+
+<article class="receipt-body fixed" ng-class="{'mt10px':!invoice.isWap,'mt55px':invoice.isWap}">
+    <table class="rb-table width100" border="0" cellpadding="0" cellspacing="0">
+        <tr>
+            <th>收件人：</th>
+            <td><input type="text" class="width90 input-style" ng-model="invoice.postInfo.postname" maxlength="12"/></td>
+        </tr>
+        <tr>
+            <th>联系电话：</th>
+            <td><input type="text" class="width90 input-style" ng-model="invoice.postInfo.postphone" maxlength="11"/></td>
+        </tr>
+        <tr>
+            <th>省市地区：</th>
+            <td>
+                <select class="width90 select-style mb5px" ng-model="invoice.postInfo.postProviceCode" ng-change="changeProvince()">
+                    <option value="">选择省份</option>
+                    <option ng-repeat="province in invoice.provinceList" value="0{{province.ESS_PROVINCE_CODE}}" ng-selected="{{invoice.postInfo.postProviceCode == 0+province.ESS_PROVINCE_CODE}}">{{province.PROVINCE_NAME}}</option>
+                </select>
+                <select class="width90 select-style mb5px" ng-model="invoice.postInfo.postCityCode" ng-change="changeCity()">
+                    <option value="">选择地市</option>
+                    <option ng-repeat="city in invoice.cityList" value="{{city.ESS_CITY_CODE}}" ng-selected="{{invoice.postInfo.postCityCode == city.ESS_CITY_CODE}}">{{city.CITY_NAME}}</option>
+                </select>
+                <select class="width90 select-style" ng-model="invoice.postInfo.postRegionCode" ng-change="changeRegionCode()">
+                    <option value="">选择区县</option>
+                    <option ng-repeat="area in invoice.areaList" value="{{area.DISTRICT_CODE}}" ng-selected="{{invoice.postInfo.postRegionCode == area.DISTRICT_CODE}}">{{area.DISTRICT_NAME}}</option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <th>邮政编码：</th>
+            <td><input type="text" class="width90 input-style" ng-model="invoice.postInfo.postcode" maxlength="6"/></td>
+        </tr>
+        <tr>
+            <th>详细地址：</th>
+            <td><input type="text" class="width90 input-style" ng-model="invoice.postInfo.postaddr" maxlength="30"/></td>
+        </tr>
+    </table>
+</article>
+<article class="invoice-list fixed" ng-show="invoiceErrorMsg!=''&&invoiceErrorMsg!=undefined&&invoiceErrorMsg!=null">
+    <div class="error">{{invoiceErrorMsg}}</div>
+</article>
+<article class="receipt-btn-area">
+    <button class="button-style btn-f60 left width56 mr4 confirm-receipt" ng-click="confirmPost()">确认并保存</button>
+    <button class="button-style btn-efefef left width40 cancel-receipt" ng-click="cancelEditPost()">取消</button>
+</article>

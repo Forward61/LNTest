@@ -1,0 +1,72 @@
+<header class="page-head" ng-show="bankcharge.isWap && !bankcharge.activityFlag">
+    <label class="return-btn"><a href="javascript:void(0)" class="arrow-l"></a></label>
+    <p class="page-title">发票信息</p>
+</header>
+<form name="bankchargeForm" class="css-form" novalidate>
+<article class="page">
+    <section class="invoice-infor" ng-show="false">
+        <!--<div class="infor-top fixed">
+            <em class="invoice-icon"></em>
+            <label class="invoice-text" ng-hide="bankcharge.isOnlineProvince">发票</label>
+            <label class="invoice-text" ng-show="bankcharge.isOnlineProvince">自取发票</label>
+            <label class="invoice-subtext" ng-show="bankcharge.isOnlineProvince">（或交费完成页面选择邮寄）</label>
+        </div>-->
+        <!--发票展示 -->
+        <div ng-click="goInvoiceHtml();" ng-repeat="invoinceInfo in bankcharge.invoiceList" ng-show="bankcharge.invoiceNorMonthShow&&bankcharge.bankchargeamount">
+            <dl class="infor-dl"><dt>发票抬头：</dt><dd class="val-one">{{invoinceInfo.INVOICE_HEAD}}</dd></dl>
+            <dl class="infor-dl"><dt>证件类型：</dt><dd class="val-two">{{invoinceInfo.CARD_TYPE_NAME}}</dd></dl>
+            <dl class="infor-dl"><dt>证件号码：</dt><dd class="val-three">{{invoinceInfo.ID_CARDNO}}</dd></dl>
+
+        </div>
+    </section>
+
+    <dl class="fixed infor-list mb15">
+        <dt>证件类型</dt>
+        <dd class="infor-box">
+            <label class="certificate">{{invoiceInfo.invoiceTypeName}}</label>
+            <select  class="sel-certificate" ng-model="invoiceInfo.invoiceTypeCode"  name="invoiceTypeCode"   ng-change="changeInvoiceType()" required>
+                <option ng-selected="{{operator.certid == invoiceInfo.invoiceTypeCode}}"
+                        ng-repeat="operator in invoiceSelectOption"
+                        value="{{operator.certid}}">
+                    {{operator.certname}}
+                </option>
+            </select>
+            <em class="arrow-d"></em>
+        </dd>
+    </dl>
+    <dl class="fixed infor-list">
+        <dt>证件号码</dt>
+        <dd class="infor-box">
+            <input type="text" id="certificateNum" ng-keyup="showcard()" maxlength="18" name="certificateNum" ng-class="{'certificate-num':true,'card-num-focus':invoiceInfo.certificateNum != '' && invoiceInfo.certificateNum != undefined}" ng-maxlength="18"
+                   ng-model="invoiceInfo.certificateNum" placeholder="请输入证件号码" required/>
+            <em ng-show="invoiceInfo.cardremove" class="remove-icon"  ng-click="cardremove();"></em>
+        </dd>
+    </dl>
+    <dl class="fixed infor-list mt20 mb15">
+        <dt>发票抬头</dt>
+        <dd class="infor-box">
+            <input type="text" ng-model="invoiceInfo.invoiceHeader" name="invoiceHeader" id="invoiceHeader"
+                   ng-class="{'invoice-text02':true,'card-num-focus':invoiceInfo.invoiceHeader != '' && invoiceInfo.invoiceHeader != undefined}"
+                   placeholder="请输入发票抬头" maxlength="50" ng-keyup="showheader()" required/>
+            <em ng-show="invoiceInfo.headeremove" class="remove-icon" ng-click="headeremove();"></em>
+        </dd>
+    </dl>
+    <div class="error">{{invoiceErrorMsg}}</div>
+    <div class="fixed" ng-show="isShowSave">
+        <a href="javascript:void(0)" class="btn-style left w38 ml30px mr2" ng-click="invoiceJudge();">保存</a>
+        <a href="javascript:void(0)" class="delbtn-style left w38" ng-click="invoiceCancelOrDel();">{{invoiceInfo.invoiceDelOrCancelTag}}</a>
+    </div>
+</article>
+
+<div class="read" id="del-invoice">
+    <p class="read-tips">您确定要删除发票信息?</p>
+    <div class="read-btn fixed">
+        <a href="javascript:void(0)" ng-click="delInvoice();" class="yes yes-del">确定</a>
+        <a href="javascript:void(0)" ng-click="cancleInvoice();" class="no no-del">取消</a>
+    </div>
+</div>
+</article>
+<article class="submit-area">
+    <button class="right sub-selected" ng-click="goPayInfo()">提交</button>
+</article>
+</form>

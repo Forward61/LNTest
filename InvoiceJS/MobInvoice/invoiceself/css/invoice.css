@@ -1,0 +1,162 @@
+/**页头样式**/
+.page-head{top:0;z-index:999;position: fixed;border:0;background:#f60;}
+.return-btn{border:0;}
+.arrow-l{border:0;background-image:url(../../images/arrow_white_l.png);background-size:11px 18px;}
+.page-title{color:#fff;}
+/**页头样式**/
+/**发票查询页面**/
+.search-page{padding:10px 10px 0;}
+.search-page h1{font-size:15px;margin-bottom:5px;}
+.conditions{margin-bottom:10px;}
+.conditions span{float:left;height:30px;line-height:30px;text-align:center;border:1px solid #ddd;border-radius:5px;background-color:#fff;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;box-sizing:border-box;}
+.conditions span.current{color:#fff;background-color:#f60;border-color:#f60;}
+
+/**发票查询页面**/
+/**发票列表页面**/
+.invoice-list{margin-bottom:10px;border-top:1px solid #ddd;border-bottom:1px solid #ddd;background-color:#fff;}
+.list-head{position:relative;padding-left:10px;}
+.list-head label{display:block;height:36px;line-height:36px;}
+.list-head .arrow-r{top:50%;margin-top:-18px;}
+.list-head p{width:90%;}
+.selected-icon{float:left;width:18px;height:18px;margin:10px 5px 0 0;background-repeat:no-repeat;background-size:15px 15px;}
+.uncheck-icon{background-image:url(../../images/uncheck_icon.png);}
+.choose-icon{background-image:url(../../images/choose_icon.png);}
+.list-head label{font-size:15px;font-weight:bold;}
+.list-body{padding:0 10px;border-top:1px solid #ddd;}
+.list-body li{height:36px;line-height:36px;}
+.list-body li label{color:#666;}
+.invoice-name{height:26px;padding:5px 0 5px 10px;line-height:26px;border-top:1px solid #ddd;}
+.invoice-name b{color:red;}
+.invoice-name input{width:60%;height:24px;line-height:24px;padding:0 3px;border:1px solid #ddd;}
+
+.submit-area{position:fixed;bottom:0;z-index:99;width:100%;height:60px;background:#ddd;}
+.amount-area{width:70%;height:50px;padding:5px 0;}
+.amount-area p{height:25px;padding-left:10px;line-height:25px;font-size:16px;}
+.amount-area span{color:red;}
+.submit-area button{width:30%;height:60px;font-size:16px;font-weight:bold;line-height:60px;border:none;color:#fff;background:#f60;}
+.submit-area-bg{position:fixed;bottom:0;z-index:99;width:100%;height:60px;}
+/**发票列表页面**/
+
+/**发票支付信息页面**/
+.not-choose label{color:#999;}
+.receipt-list{margin-bottom:10px;border-top:1px solid #ddd;border-bottom:1px solid #ddd;background-color:#fff;}
+.receipt-list-head{height:36px;line-height:36px;border-bottom:1px solid #ddd;background-color:#f7f7f7;}
+.edit-ri{height:36px;line-height:36px;padding-left:18px;background:url(../../images/edit.png) no-repeat center left; background-size:15px 15px;}
+.del-ri{height:36px;line-height:36px;padding-left:18px;background:url(../../images/delete.png) no-repeat center left; background-size:15px 15px;}
+.receipt-list-body{position:relative;padding:10px;}
+.receipt-list-body p{width:90%;}
+.choose-receipt{position:absolute;top:50%;right:10px;display:block;width:20px;height:20px;margin-top:-10px;background:url(../../images/selected.png) no-repeat;background-size:20px 20px;}
+.add-receipt{height:36px;border:2px solid #bbb;background-color:#fff;border-radius:5px;}
+.receipt-body{margin-bottom:10px;border-top:1px solid #ddd;background-color:#fff;}
+.rb-table{}
+.rb-table th{width:90px;line-height:28px;padding:5px 0;text-align:right;border-bottom:1px solid #ddd;vertical-align:top;}
+.rb-table td{padding:5px 0;border-bottom:1px solid #ddd;}
+.receipt-btn-area{margin:0 10px;}
+.del-layer{z-index:10000002;display:none;width:80%;overflow:hidden;background-color:#fff;border-radius:3px;}
+.del-layer-tips{width:100%;line-height:50px;font-size:14px;text-align:center;border-bottom:1px solid #e8e8e8;}
+.del-layer-btn{text-align:center;}
+.del-layer-btn a{display:inline-block;text-align:center;margin:15px 8px;}
+.del-layer-btn .no{width:35%;background-color:#fff;color:#666;line-height:33px;border-radius:3px;border:1px solid #dedede;}
+.del-layer-btn .yes{width:35%;background-color:#f36303;color:#fff;line-height:35px;border-radius:3px;}
+
+/**发票支付信息页面**/
+
+/*发票支付完成页面*/
+.details-title{text-align:left;padding:25px 20px 25px 60px;}
+.details-title em{display:inline-block;vertical-align:top;width:24px;height:24px;margin-right:5px;background-size:24px;background-repeat:no-repeat;}
+em.icon01{background-image:url(../../images/icon01.png);}
+em.icon02{background-image:url(../../images/icon02.png);}
+em.icon03{background-image:url(../../images/icon03.png);}
+.details-title span{display:inline-block;vertical-align:middle;font-size:17px;}
+.details-title b{font-size:12px;}
+
+.infor-list{margin-bottom:20px;}
+.infor-list li{height:40px;line-height:40px;padding:0 20px;font-size:15px;background-color:#f1f1f1;border-bottom:1px solid #fff;}
+.list-title{font-weight:bold;border-bottom:1px solid #fff;}
+.price{color:#f60;}
+.c666{color:#666;}
+.btn-area{margin:0 10px;}
+/*发票支付完成页面*/
+
+/*发票领取记录查询*/
+.time-select{position:fixed;top:45px;z-index:999;width:100%;height:56px;border-bottom:1px solid #dbdbdb;background-color:#fcfcfc;}
+.time-select-app{position:fixed;top:0px;z-index:999;width:100%;height:56px;border-bottom:1px solid #dbdbdb;background-color:#fcfcfc;}
+.tmie-list{text-align:center;}
+.tmie-list li{display:inline-block;width:15%;height:34px;padding:10px 0;}
+.tmie-list span{display:block;}
+.tmie-list li.current{border-bottom:2px solid #f60;}
+.record-list{margin-top:10px;padding:10px;border:1px solid #dbdbdb;border-width:1px 0;background-color:#fff;font-size:14px;}
+/*发票领取记录查询*/
+
+
+.left{float:left;}
+.right{float:right;}
+.fb{font-weight:bold;}
+.arrow-d{position:absolute;top:0px;right:0px;display:block;width:40px;height:36px;background:url(../../images/arrow_d.png) no-repeat center;background-size:13px 7px;}
+.arrow-r{position:absolute;top:0px;right:0px;display:block;width:40px;height:36px;background:url(../../images/arrow_r.png) no-repeat center;background-size:7px 13px;}
+.mt10px{margin-top:10px;}
+.mt55px{margin-top:55px;}
+.mt45px{margin-top:45px;}
+.mt68px{margin-top:68px;}
+.mt113px{margin-top:113px;}
+.mt30px{margin-top:30px;}
+.ml10px{margin-left:10px;}
+.ml30px{margin-left: 30px}
+.mr10px{margin-right:10px;}
+.mb5px{margin-bottom:5px;}
+.mb60px{margin-bottom:60px;}
+.mr2{margin-right:2%;}
+.mr4{margin-right:4%;}
+.mr30px{margin-right:30px;}
+.plr10px{padding:0 10px;}
+.pb10px{padding-bottom:10px;}
+.width100{width:100%;}
+.width90{width:90%;}
+.width32{width:32%;}
+.width40{width:40%;}
+.width56{width:56%;}
+
+.button-style{height:40px;font-size:16px;font-weight:bold;line-height:40px;border:none;border-radius:5px;}
+.btn-f60{color:#fff;background-color:#f60;}
+.btn-efefef{color:#999;background-color:#efefef;}
+.btn-ff9000{color:#fff;background-color:#ff9000;}
+.input-style{height:26px;line-height:normal;border:1px solid #ddd;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;box-sizing:border-box;}
+.select-style{height:26px;padding:0;border:1px solid #ddd;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;box-sizing:border-box;}
+
+.invoice-box{height:40px;margin-bottom:20px;border:1px solid #dedede;border-radius:3px;background-color:#fff;}
+.invoice-icon{float:left;width:25px;height:17px;margin:13px 0 0 10px;background:url(../../images/invoice.gif) no-repeat;background-size:20px 17px;}
+.invoice-text{float:left;height:15px;padding:13px 0 12px 0;font-size:15px;color:#666;}
+.invoice-subtext{float:left;height:12px;padding:13px 0 12px 0;font-size:15px;color:#f60;}
+.invoice-other{float:left;height:15px;padding:0px 0px 12px 5px;font-size:15px;color:#666;}
+.invoice-infor{position:relative;margin-bottom:25px;padding-bottom:10px;border:1px solid #dedede;border-radius:3px;background-color:#fff;}
+.invoice-infor dl{line-height:20px;margin:0 20px 0 10px;}
+.invoice-infor{}
+.invoice-infor .arrow-r{position:absolute;right:0px;top:60px;}
+.invoice-infohide{display:none;}
+/***invoice***/
+.mt20{margin-top:20px;}
+.mb15{margin-bottom:15px;}
+.infor-list{}
+.infor-list dt{line-height:24px;font-size:15px;color:#666;}
+.infor-box{position:relative;height:40px;padding:0 10px;border:1px solid #dedede;border-radius:3px;background-color:#fff;}
+
+.invoice-text02,.certificate-num{width:100%;height:30px;margin-top:5px;padding-right:20px;color:#999;font-size:15px;border:0;outline:none;background-color:#fff;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;box-sizing:border-box;}
+.invoice-error{margin-bottom:0px;}
+.invoice-text03,.certificate-num{width:100%;height:30px;margin-top:5px;padding-right:20px;color:#999;font-size:15px;border:0;outline:none;background-color:#fff;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;box-sizing:border-box;}
+
+.w38{width:38%;}
+.delbtn-style{height:40px;line-height:40px;margin-bottom:30px;text-align:center;border:1px solid #dedede;color:#333;font-size:16px;font-weight:bold;border-radius:3px;background-color:#fff;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;box-sizing:border-box;}
+.w60{width:60%;}
+.certificate{position:absolute;z-index:20;line-height:40px;color:#333;font-weight:bold;font-size:15px;}
+.arrow-d{position:absolute;top:16px;right:10px;display:block;width:17px;height:9px;background:url(../../images/arrow_d.png) no-repeat;background-size:17px 9px;}
+.sel-certificate{display:block;z-index:10;position:absolute;left:0;top:0;width:100%;height:100%;line-height:40px;border:0;opacity:0;}
+.remove-icon{position:absolute;top:9px;right:10px;width:22px;height:22px;background:url(../../images/fork.gif) center no-repeat;background-size:22px;}
+
+.read{z-index:10000002;display:none;width:80%;overflow:hidden;background-color:#fff;border-radius:3px;}
+.read-tips{width:100%;line-height:50px;font-size:14px;text-align:center;border-bottom:1px solid #e8e8e8;}
+.read-btn{text-align:center;}
+.read-btn a{display:inline-block;text-align:center;margin:15px 8px;}
+.read-btn .no{width:35%;background-color:#ffffff;color:#666;line-height:33px;border-radius:3px;border:1px solid #ededed; }
+.read-btn .yes{width:35%;background-color:#f36303;color:#fff;line-height:35px;border-radius:3px;}
+.form-control{cursor: not-allowed;background-color: #eee;opacity: 1;},
+
