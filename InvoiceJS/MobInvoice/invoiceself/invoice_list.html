@@ -36,7 +36,7 @@
     </ul>
 </article>
 
-<article class="invoice-list fixed" ng-class="{'mb60px':invoiceErrorMsg==''||invoiceErrorMsg==undefined||invoiceErrorMsg==null}" ng-show="chooseCityHidden">
+<article class="invoice-list fixed" ng-class="{'':invoiceErrorMsg==''||invoiceErrorMsg==undefined||invoiceErrorMsg==null}" ng-show="chooseCityHidden">
     <section  ng-class="{'form-control':invoice.NotAllowedChoose}" class="list-head card">
         <em ng-class="{'selected-icon':true,'choose-icon':invoice.cardList.length==invoice.card_invoice.length,
         'uncheck-icon':invoice.cardList.length!=invoice.card_invoice.length}" ng-click="chooseCardAll()"></em>
@@ -64,7 +64,7 @@
 <article class="invoice-list fixed" ng-class="{'mb60px':invoiceErrorMsg==''||invoiceErrorMsg==undefined||invoiceErrorMsg==null}" ng-show="chooseCityHidden">
     <section  class="list-head charge">
         <em ng-class="{'selected-icon':true,'choose-icon':invoice.chargeList.length==invoice.charge_invoice.length,
-        'uncheck-icon':invoice.charge_invoice.length!=invoice.card_invoice.length}" ng-click="chooseChargeAll()"></em>
+        'uncheck-icon':invoice.chargeList.length!=invoice.charge_invoice.length}" ng-click="chooseChargeAll()"></em>
         <label class="">直充发票</label>
         <i class="arrow-r"></i>
     </section>

@@ -50,16 +50,6 @@ define(['angular','commonModule','focus','cookieInfo'], function (angular) {
                         s_x += '0';
                     }
                     return s_x;
-                },
-                judgeInvoiceHead:function(){
-
-                    if (judgeEmpty($scope.invoice.invoiceHeader) || /^.*[,\^\*\?#<>&\!@%`+\$}{'"\\\/\[\]+].*$/.test($scope.invoice.invoiceHeader)
-                        || /^.*[\u005f\u003d\uff5b\uff5d\u3001\u007c\uff5c\u003b\uff1b\uff1f\uff01\uffe5\u2026\u201c\u201d\u2018\u2019].*$/.test($scope.invoice.invoiceHeader)
-                        || ($.trim($scope.invoice.invoiceHeader) == "null")) {
-                        $scope.invoiceErrorMsg = "请正确填写发票抬头";
-                        return false;
-                    }
-                    return true;
                 }
             }
     });

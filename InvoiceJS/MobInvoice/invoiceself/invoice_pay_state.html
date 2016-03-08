@@ -22,12 +22,6 @@
     </h6>
     <ul class="infor-list">
         <li><span class="c666">发票金额：</span><span class="price">{{invoice.invoiceTotalMoney}}元</span></li>
-        <li><span class="c666">邮寄费用：
-
-        </span><span class="price" ng-if="( invoice.is_mailing== 1&& invoice.payment_method == 2)">{{invoice.payAmount}}积分</span>
-        </span><span class="price" ng-if="( invoice.is_mailing== 1&& invoice.payment_method != 2)">{{invoice.payAmount}}元</span>
-        </span><span class="price" ng-if="( invoice.is_mailing!= 1)">{{invoice.payAmount.toString()}}元</span>
-        </li>
     </ul>
     <div class="plr10 fixed btn-area">
         <button class="button-style btn-ff9000 width56 mr4 left view-record" ng-click="goQuery()">查看发票领取记录</button>

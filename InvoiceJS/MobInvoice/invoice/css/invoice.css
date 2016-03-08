@@ -38,7 +38,6 @@
 
 /**发票支付信息页面**/
 .not-choose label{color:#999;}
-
 .receipt-list{margin-bottom:10px;border-top:1px solid #ddd;border-bottom:1px solid #ddd;background-color:#fff;}
 .receipt-list-head{height:36px;line-height:36px;border-bottom:1px solid #ddd;background-color:#f7f7f7;}
 .edit-ri{height:36px;line-height:36px;padding-left:18px;background:url(../../images/edit.png) no-repeat center left; background-size:15px 15px;}

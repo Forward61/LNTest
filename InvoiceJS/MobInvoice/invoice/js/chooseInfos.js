@@ -233,12 +233,12 @@ define(['angular', 'NpfMobileConfig', 'invoice/js/invoice','commonModule','messa
                     }
                 }
                 $scope.fillCardInvoiceRecord = function(data) {
+                    $scope.invoice.card_invoice = [];
 
                     if(data.length<=0 || $scope.invoice.isPost && ($scope.invoice.mail_servicetype.length <= 0 || $scope.invoice.is4G) || !$scope.invoice.isPost && $scope.invoice.receive_servicetype.length <= 0) {//邮寄,无一卡充/自取,无一卡充
                         return;
                     }
                     var beforeDate = DateUtil.getLastMonthDate(new Date(), $scope.invoice.month);
-                    $scope.invoice.card_invoice = [];
                     for(var i=0;i<data.length;i++) {
                         data[i].showMoney = parseFloat(data[i]["topayTotalMoney"])/100;
                         data[i].choosen = false;
@@ -248,41 +248,38 @@ define(['angular', 'NpfMobileConfig', 'invoice/js/invoice','commonModule','messa
                 }
                 $scope.fillPayInvoiceRecord = function(data) {
                     $scope.invoice.pay_invoice = [];
-                    
+
                     var records = data.fee_rec_info;
-                    if(!(records == null || records.length<=0 || $scope.invoice.isPost && $scope.invoice.mail_invoicetype.indexOf("0") < 0 || !$scope.invoice.isPost && $scope.invoice.receive_invoicetype.indexOf("0") < 0)) {//邮寄,无月结/自取,无月结
-                        var beforeDate = DateUtil.getLastMonthDate(new Date(), $scope.invoice.month);
-                        for(var i=0;i<records.length;i++) {
-                            var money = parseFloat(records[i]["recvFee"])/100;
-                            if(new Date(beforeDate).getTime() > Date.parse(records[i]["recvTime"].replace(/-/g, "/")) || money <= 0) break;
-                            records[i].showMoney = money;
-                            records[i].choosen = false;
-                            $scope.invoice.pay_invoice.push(records[i]);
-                        }
+                    if(records.length<=0 || $scope.invoice.isPost && $scope.invoice.mail_invoicetype.indexOf("0") < 0 || !$scope.invoice.isPost && $scope.invoice.receive_invoicetype.indexOf("0") < 0) {//邮寄,无月结/自取,无月结
+                        return;
                     }
-                    if(data.total_print_fee != null && data.total_print_fee > 0){
-                        $scope.invoice.pay_limit = data.total_print_fee/100;
+                    var beforeDate = DateUtil.getLastMonthDate(new Date(), $scope.invoice.month);
+                    for(var i=0;i<records.length;i++) {
+                        var money = parseFloat(records[i]["recvFee"])/100;
+                        if(new Date(beforeDate).getTime() > Date.parse(records[i]["recvTime"].replace(/-/g, "/")) || money <= 0) break;
+                        records[i].showMoney = money;
+                        records[i].choosen = false;
+                        $scope.invoice.pay_invoice.push(records[i]);
                     }
+                    $scope.invoice.pay_limit = data.total_print_fee/100;
                 }
-                
                 $scope.fillMoneyInvoiceRecord = function(data) {
                     $scope.invoice.month_invoice = [];
-                    
+
                     var records = data.month_rec_info;
-                    if(!(records == null || records.length<=0 || $scope.invoice.isPost && $scope.invoice.mail_invoicetype.indexOf("1") < 0 || !$scope.invoice.isPost && $scope.invoice.receive_invoicetype.indexOf("1") < 0)) {//邮寄,无月结/自取,无月结
-                        var beforeDate = DateUtil.getLastMonthDate(new Date(), $scope.invoice.month+1);
-                        for(var i=0;i<records.length;i++) {
-                            var bcycId = records[i]["bcycId"].substr(0,4) + "-" + records[i]["bcycId"].substr(4) , money = parseFloat(records[i]["totalFee"])/100;
-                            if(new Date(beforeDate) > new Date(bcycId) || money <= 0) break;
-                            records[i].showMoney = money;
-                            records[i].showTime = bcycId;
-                            records[i].choosen = false;
-                            $scope.invoice.month_invoice.push(records[i]);
-                        }
+                    if(records.length<=0 || $scope.invoice.isPost && $scope.invoice.mail_invoicetype.indexOf("1") < 0 || !$scope.invoice.isPost && $scope.invoice.receive_invoicetype.indexOf("1") < 0) {//邮寄,无月结/自取,无月结
+                        return;
                     }
-                    if(data.total_print_fee != null && data.total_print_fee > 0){
-                        $scope.invoice.month_limit = data.total_print_fee/100;
+                    var beforeDate = DateUtil.getLastMonthDate(new Date(), $scope.invoice.month+1);
+                    for(var i=0;i<records.length;i++) {
+                        var bcycId = records[i]["bcycId"].substr(0,4) + "-" + records[i]["bcycId"].substr(4) , money = parseFloat(records[i]["totalFee"])/100;
+                        if(new Date(beforeDate) > new Date(bcycId) || money <= 0) break;
+                        records[i].showMoney = money;
+                        records[i].showTime = bcycId;
+                        records[i].choosen = false;
+                        $scope.invoice.month_invoice.push(records[i]);
                     }
+                    $scope.invoice.month_limit = data.total_print_fee/100;
                 }
                 $scope.getInvoiceInfo = function(type) {
                     var uris = {"month":"obtainMonthInvoite","pay":"obtainPayfeeInvoice","card":"GetBuyCardInvoice"};

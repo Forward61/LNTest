@@ -29,6 +29,10 @@ define(['angular','NpfMobileConfig','invoiceself/js/invoice','invoiceself/js/cho
 
                 var invoiceCerttype = $scope.invoiceInfo.invoiceTypeCode;
                 var certificateNum = $scope.invoiceInfo.certificateNum;
+                if(commonUtil.judgeEmpty(certificateNum)){
+                    $scope.invoiceErrorMsg ="请正确填写证件号码";
+                    return;
+                }
                 if ("0" == invoiceCerttype) {
                     if (!IdCard.IdCardValidate($scope.invoiceInfo.certificateNum)) {
                         $scope.invoiceErrorMsg = "身份证号码格式不正确";
@@ -95,7 +99,7 @@ define(['angular','NpfMobileConfig','invoiceself/js/invoice','invoiceself/js/cho
                     'invoiceBean.is_mailing' : $scope.invoice.isPost ? '1' : '0',
                     'invoiceBean.need_invoice' : '1',
                     'invoiceBean.province_code' : $scope.invoice.provinceCode,
-                    'invoiceBean.city_code': $scope.invoice.currentCityName,
+                    'invoiceBean.city_code': $scope.invoice.cityCode,
                     'postBean.monthInvoice' : commonUtil.arrToStr($scope.invoice.monthInvoice),
                     'postBean.payInvoice' : commonUtil.arrToStr($scope.invoice.payInvoice),
                     'postBean.cardList' : commonUtil.arrToStr($scope.invoice.cardList),
@@ -217,7 +221,8 @@ define(['angular','NpfMobileConfig','invoiceself/js/invoice','invoiceself/js/cho
                 $scope.invoiceInfo.invoiceType="";
 
                 $scope.invoiceInfo.invoiceTypeName = commonUtil.getInvoiceTypeName( $scope.invoiceInfo.invoiceList[0].CARD_TYPE);*/
-                $location.path($scope.invoiceInfo.uri);
+                //$location.path($scope.invoiceInfo.uri);
+                $location.path("/invoinceInfo");
                 $("#del-invoice").hide();
             }
 

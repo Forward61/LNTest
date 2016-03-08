@@ -100,6 +100,7 @@ define(['angular','NpfMobileConfig'], function (angular,NpfMobileConfig) {
                 cityCodePrev :"",//拉取折扣率上一个输入号码返回的地市编码
                 fixCityCodePrev:"",//拉取折扣率
                 getOfferate : false,
+                selectedCardValueCode:"",
                 cardMoney:"0",
                 chargeMoney:"0",
                 getCustomInvoice:"",

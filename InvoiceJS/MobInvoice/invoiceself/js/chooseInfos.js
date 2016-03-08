@@ -79,6 +79,7 @@ define(['angular', 'NpfMobileConfig', 'invoiceself/js/invoice','commonModule','m
                 $scope.isShowSave=true;
                 $scope.invoice.isCardShow=true;
                 $scope.invoice.NotAllowedChoose=false;
+                $scope.invoice.isChoosePro=false;
                 $(".list-head").click(function() {
                     var _this=$(this),_thisIClass=_this.find('i').attr('class');
                     if (_thisIClass != "arrow-d") {
@@ -224,6 +225,15 @@ define(['angular', 'NpfMobileConfig', 'invoiceself/js/invoice','commonModule','m
                 //跳转发票/邮寄页面
                 $scope.goInvoiceHtml = function () {
                     if($scope.invoice.chargeMoney>0||$scope.invoice.cardMoney>0){
+                        if($scope.invoice.cardMoney>0){
+                            if($scope.invoice.isChoosePro){
+                                $location.path('/invoinceInfo');
+                                return;
+                            }else{
+                                $scope.invoiceErrorMsg="请选择购卡发票所属地";
+                                return ;
+                            }
+                        }
                         $location.path('/invoinceInfo');
                     }
                     else{
@@ -260,6 +270,7 @@ define(['angular', 'NpfMobileConfig', 'invoiceself/js/invoice','commonModule','m
                         $scope.invoice.isShowProvince=false;
                         $scope.invoice.isShowCity=false;
                         $scope.chooseCityHidden=true;
+                        $scope.invoice.cityCode=$scope.bankcharge.cityNames[0].id;
                         //获取发票配置信息  常用发票信息
                         $scope.getProInvoiceConfig(provinceCode,$scope.bankcharge.cityNames[0].id);
                     }else{
@@ -268,16 +279,16 @@ define(['angular', 'NpfMobileConfig', 'invoiceself/js/invoice','commonModule','m
                     $scope.invoice.isShowProvince=false;
                 }
 
-                //选择地市-->返回省份地市至宽带页面
+                //选择地市-->
                 $scope.confirmCity = function (cityName,provCode,cityCode){
                     $scope.invoice.isShowProvince=false;
                     $scope.invoice.isShowCity=false;
-                    $scope.bankchargeErrorMsg = "";
                     $scope.invoice.currentCityName = cityName;
                     if( AreaUtils.municipality.indexOf(provCode)>=0){
                         $scope.invoice.currentCityName = "";
                     }
                     $scope.chooseCityHidden=true;
+                    $scope.invoice.cityCode=cityCode;
                     $scope.getProInvoiceConfig(provCode,cityCode);
                 }
                 //自取发票购卡记录省份
@@ -285,15 +296,13 @@ define(['angular', 'NpfMobileConfig', 'invoiceself/js/invoice','commonModule','m
                     $scope.invoice.servicetypetemp ="08";
                     $scope.invoice.invoicetype = commonUtil.judgeEmpty($scope.invoice.cardinvoicerule[$scope.invoice.servicetypetemp])? "1" : $scope.invoice.cardinvoicerule[$scope.invoice.servicetypetemp]["invoice_type"];
                     if ($scope.invoice.invoicetype == "0") { // 自取
-                        noSelfInvoice=false;
-                        $(".noSelfInvoiceTip").empty().text("");
-                        $("#invoice_card").find("input").attr("disabled",false);
                         $scope.invoice.isCardShow=true;
                         $scope.invoice.NotAllowedChoose=false;
                         $scope.invoiceErrorMsg="";
+                        $scope.invoice.isChoosePro=true;
                     }
-
                     else{
+                        $scope.invoice.isChoosePro=false;
                         $scope.invoice.isCardShow=false;
                         $scope.invoice.NotAllowedChoose=true;
                         $scope.chooseCardAll(false);
